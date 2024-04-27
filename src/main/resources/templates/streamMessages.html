@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Stream Messages</title>
 </head>
 <body>
-view
+<h1>Messages</h1>
+<div th:if="${messages.isEmpty()}">
+    <p>No messages found.</p>
+</div>
+<div th:unless="${messages.isEmpty()}">
+    <ul>
+        <li th:each="message : ${messages}">
+            <div>
+                <p><strong>Sender:</strong> <span th:text="${message.get('sender')}">Sender Name</span></p>
+                <p><strong>Receiver:</strong> <span th:text="${message.get('receiver')}">Receiver Name</span></p>
+                <p><strong>Date:</strong> <span th:text="${message.get('date')}">Date</span></p>
+                <p><strong>Text:</strong> <span th:text="${message.get('text')}">Message Text</span></p>
+<!--                <p><strong>Role:</strong> <span th:text="${message.get('role')}">Role</span></p>-->
+            </div>
+            <hr>
+        </li>
+    </ul>
+</div>
 </body>
 </html>

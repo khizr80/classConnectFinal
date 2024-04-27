@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 @Repository
 public class Student implements Login {
     private String userName;
@@ -84,6 +84,14 @@ public class Student implements Login {
 
         String sql = "SELECT teacherUsername FROM course WHERE course_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{courseId}, String.class);
+    }
+    public List<Map<String, Object>> getMessagesBySenderReceiverAndRole(String sender, String receiver, String role) {
+
+        String sql = "SELECT sender, receiver, text, `date`, roll " +
+                "FROM message " +
+                "WHERE receiver = '" + receiver + "' AND sender = '" + sender + "' AND roll = '" + role + "'";
+
+        return jdbcTemplate.queryForList(sql);
     }
 }
 

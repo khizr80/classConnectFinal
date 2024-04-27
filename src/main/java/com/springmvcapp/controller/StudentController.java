@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
     public class StudentController
@@ -53,18 +54,16 @@ import java.util.List;
     }
     @PostMapping("/viewStreamMessages")
     public String viewStreamMessages(@RequestParam("courseId") String courseId,Model model) {
-        System.out.println(courseId);
-        // Logic to handle viewing stream messages
+        List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,courseId,"c");
+        model.addAttribute("messages", messages); // Add messages to the model
         return "streamMessages"; // View name or redirection
     }
 
     @PostMapping("/sendStreamMessage")
     public String sendStreamMessage(@RequestParam("courseId") String courseId,Model model) {
-        System.out.println(courseId);
         model.addAttribute("courseId", courseId);
         String g=s.getTeacherUsernameByCourseId(courseId);
         model.addAttribute("teacherUsername", g);
-        System.out.println(g);
         return "message"; // Redirect after sending message
     }
     @PostMapping("/sendStreamMessage2")
@@ -78,11 +77,7 @@ import java.util.List;
         }
         else
         {
-            System.out.println("come");
-            System.out.println("teacher username "+t);
            String v=s.insertMessage(username,t,"t",messageText);
-            System.out.println("go");
-
         }
         // Logic to process the message here
 
@@ -93,8 +88,23 @@ import java.util.List;
     @PostMapping("/viewTeacherMessages")
     public String viewTeacherMessages(@RequestParam("courseId") String courseId,Model model) {
         System.out.println(courseId);
-        // Logic to handle viewing teacher messages
-        return "teacherMessages"; // View name or redirection
+        String g=s.getTeacherUsernameByCourseId(courseId);
+        System.out.println(g);
+        List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,g,"t");
+        model.addAttribute("messages", messages); // Add messages to the model
+        if (messages != null) {
+            for (Map<String, Object> message : messages) {
+                System.out.println("Sender: " + message.get("sender"));
+                System.out.println("Receiver: " + message.get("receiver"));
+                System.out.println("Text: " + message.get("text"));
+                System.out.println("Date: " + message.get("date"));
+                System.out.println("Role: " + message.get("role"));
+                System.out.println("------------------------");
+            }
+        } else {
+            System.out.println("No messages found.");
+        }
+        return "streamMessages"; // View name or redirection
     }
 }
 
