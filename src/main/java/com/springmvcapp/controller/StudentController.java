@@ -9,12 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.springmvcapp.model.*;
-        import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-        import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -26,11 +21,11 @@ import java.util.List;
     public StudentController(Student s) {
         this.s = s;
     }
+    String username = null;
 
     @PostMapping("/viewCourse")
     public String viewCourse(Model model, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        String username = null;
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -66,16 +61,34 @@ import java.util.List;
     @PostMapping("/sendStreamMessage")
     public String sendStreamMessage(@RequestParam("courseId") String courseId,Model model) {
         System.out.println(courseId);
+        model.addAttribute("courseId", courseId);
+        String g=s.getTeacherUsernameByCourseId(courseId);
+        model.addAttribute("teacherUsername", g);
+        System.out.println(g);
+        return "message"; // Redirect after sending message
+    }
+    @PostMapping("/sendStreamMessage2")
+    public String sendStreamMessage(@RequestParam("courseId") String courseId,
+                                    @RequestParam("messageText") String messageText,
+                                    Model model,@RequestParam("action") String action,
+                                    @RequestParam("teacherUsername") String t) {
 
-        return "messageSent"; // Redirect after sending message
+        if ("course".equals(action)) {
+            String v=s.insertMessage(username,courseId,"c",messageText);
+        }
+        else
+        {
+            System.out.println("come");
+            System.out.println("teacher username "+t);
+           String v=s.insertMessage(username,t,"t",messageText);
+            System.out.println("go");
+
+        }
+        // Logic to process the message here
+
+        return "message"; // Redirect to a view that confirms message sending or displays the message
     }
 
-    @PostMapping("/sendTeacherMessage")
-    public String sendTeacherMessage(@RequestParam("courseId") String courseId,Model model) {
-        System.out.println(courseId);
-        // Logic to handle sending a message to a teacher
-        return "messageSent"; // Redirect after sending message
-    }
 
     @PostMapping("/viewTeacherMessages")
     public String viewTeacherMessages(@RequestParam("courseId") String courseId,Model model) {
