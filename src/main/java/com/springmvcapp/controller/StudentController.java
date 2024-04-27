@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-    public class StudentController {
+    public class StudentController
+{
     private final Student s;
 
     public StudentController(Student s) {
@@ -48,12 +49,39 @@ import java.util.List;
     }
 
     @PostMapping("/submitCourse")
-    public String handleCourseSubmission(@RequestParam("courseId") String courseId) {
+    public String handleCourseSubmission(@RequestParam("courseId") String courseId,Model model) {
         // Handle the course ID, e.g., register the user for the course, display course details, etc.
         System.out.println("Course ID submitted: " + courseId);
-
+        model.addAttribute("courseId", courseId);
         // Redirect to another page or return a view name
         return "courseDetails"; // Redirect or forward to a view displaying details of the submitted course
+    }
+    @PostMapping("/viewStreamMessages")
+    public String viewStreamMessages(@RequestParam("courseId") String courseId,Model model) {
+        System.out.println(courseId);
+        // Logic to handle viewing stream messages
+        return "streamMessages"; // View name or redirection
+    }
+
+    @PostMapping("/sendStreamMessage")
+    public String sendStreamMessage(@RequestParam("courseId") String courseId,Model model) {
+        System.out.println(courseId);
+
+        return "messageSent"; // Redirect after sending message
+    }
+
+    @PostMapping("/sendTeacherMessage")
+    public String sendTeacherMessage(@RequestParam("courseId") String courseId,Model model) {
+        System.out.println(courseId);
+        // Logic to handle sending a message to a teacher
+        return "messageSent"; // Redirect after sending message
+    }
+
+    @PostMapping("/viewTeacherMessages")
+    public String viewTeacherMessages(@RequestParam("courseId") String courseId,Model model) {
+        System.out.println(courseId);
+        // Logic to handle viewing teacher messages
+        return "teacherMessages"; // View name or redirection
     }
 }
 

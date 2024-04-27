@@ -44,14 +44,6 @@ public class Student implements Login {
         }
     }
 
-    //    public List<String> getCoursesByUsername(String username) {
-//        if (username == null || username.isEmpty()) {
-//            return null;  // Return null or an empty list depending on your error handling
-//        }
-//        String sql = "SELECT course_id FROM course_students WHERE student_id  = ?";
-//        return jdbcTemplate.query(sql, new Object[]{username}, (rs, rowNum) -> rs.getString("course_id"));
-//    }
-//}
     public List<Course> getCoursesByUsername(String username) {
         if (username == null || username.isEmpty()) {
             return new ArrayList<>();

@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-details
+<div>
+    <h1>Course Details</h1>
+    <input type="hidden" id="courseId" name="courseId" th:value="${courseId}" />
+</div>
+
+<form th:action="@{/viewStreamMessages}" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+    <button type="submit">View Stream Messages</button>
+</form>
+
+<form th:action="@{/sendStreamMessage}" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+    <button type="submit">Send Stream Message</button>
+</form>
+
+<form th:action="@{/sendTeacherMessage}" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+    <button type="submit">Send Teacher Message</button>
+</form>
+
+<form th:action="@{/viewTeacherMessages}" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+    <button type="submit">View Teacher Messages</button>
+</form>
 </body>
 </html>
