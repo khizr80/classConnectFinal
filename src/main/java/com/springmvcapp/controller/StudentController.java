@@ -25,7 +25,8 @@ import java.util.Map;
     String username = null;
 
     @PostMapping("/viewCourse")
-    public String viewCourse(Model model, HttpServletRequest request) {
+    public String viewCourse(Model model, HttpServletRequest request)
+    {
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null) {
@@ -102,6 +103,26 @@ import java.util.Map;
             System.out.println("No messages found.");
         }
         return "streamMessages"; // View name or redirection
+    }
+
+    @PostMapping("/viewTranscript")
+    public String viewTranscript(Model model, HttpServletRequest request) {
+        String username = getUsernameFromCookie(request);
+        List<Map<String, Object>> transcript = s.getTranscriptByUsername(username);
+        model.addAttribute("transcript", transcript);
+        return "transcript";
+    }
+
+    private String getUsernameFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("username".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }
 
