@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+<h1>Courses</h1>
+<div th:each="course : ${courses}">
+    <form th:action="@{/submitCourse}" method="post">
+        <input type="hidden" th:name="courseId" th:value="${course.courseId}" />
+        <button type="submit" th:text="${course.courseName}"></button>
+    </form>
+</div>
+</body>
+</html>

@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Repository
 public class Teacher implements Login {
@@ -25,4 +28,15 @@ public class Teacher implements Login {
             return "incorrect";
         }
     }
+    public List<Course> getCoursesByTeacherUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            return new ArrayList<>();
+        }
+        // Update the SQL query to filter by teacherUsername instead of student_id
+        String sql = "SELECT course_id, course_name FROM course WHERE teacherUsername = ?";
+        return jdbcTemplate.query(sql, new Object[]{username}, (rs, rowNum) ->
+                new Course(rs.getString("course_id"), rs.getString("course_name"))
+        );
+    }
+
 }
