@@ -73,15 +73,12 @@ import java.util.Map;
                                     @RequestParam("teacherUsername") String t) {
 
         if ("course".equals(action)) {
-            String v=s.insertMessage(username,courseId,"c",messageText);
+            return s.insertMessage(username,courseId,"c",messageText);
         }
         else
         {
-           String v=s.insertMessage(username,t,"t",messageText);
+           return s.insertMessage(username,t,"t",messageText);
         }
-        // Logic to process the message here
-
-        return "message"; // Redirect to a view that confirms message sending or displays the message
     }
 
 

@@ -55,26 +55,19 @@ public class Student implements Login {
         );
     }
     public String insertMessage(String senderId, String receiverId, String role, String messageText) {
-        if (senderId.isEmpty() || receiverId.isEmpty() || role.isEmpty() || messageText.isEmpty()) {
-            return "fieldEmpty";
-        }
+//        if (senderId.isEmpty() || receiverId.isEmpty() || role.isEmpty() || messageText.isEmpty()) {
+//            return "fieldEmpty";
+//        }
 
-        // SQL query to insert the message
         String sql = "INSERT INTO message (sender, receiver, date, text, roll) VALUES (?, ?, ?, ?, ?)";
-
-        // Get current date and time
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = now.format(formatter);
-        System.out.println(receiverId+"new");
         try {
-            // Execute the update
             jdbcTemplate.update(sql, senderId, receiverId, formattedDate, messageText, role);
-
-            return "messageSent";
+            return "success";
         } catch (DataIntegrityViolationException e) {
-            // Handle the error when there is a constraint violation, e.g., non-existent foreign keys
-            return "databaseError";
+            return "teacher";
         }
     }
     public String getTeacherUsernameByCourseId(String courseId) {
