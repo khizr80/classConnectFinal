@@ -21,9 +21,14 @@
 </form>
 
 
-<form th:action="@{/viewTeacherMessages}" method="post">
+<form th:action="@{/sendStudentMessages}" method="post">
     <input type="hidden" name="courseId" th:value="${courseId}" />
-    <button type="submit">View Teacher Messages</button>
+    <button type="submit"> Student Messages</button>
+</form>
+
+<form th:action="@{/viewStudentMessages}" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+    <button type="submit"> view Messages</button>
 </form>
 </body>
 </html>

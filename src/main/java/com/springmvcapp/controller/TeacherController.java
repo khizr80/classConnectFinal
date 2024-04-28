@@ -1,5 +1,5 @@
 package com.springmvcapp.controller;
-import com.springmvcapp.model.Course;  // Assuming your Course class is in the model package
+import com.springmvcapp.model.Course;
 
 import com.springmvcapp.model.*;
 import jakarta.servlet.http.Cookie;
@@ -65,5 +65,53 @@ public class TeacherController {
             return s.insertMessage(username,courseId,"c",messageText);
 
     }
+    @PostMapping("/sendStudentMessages2")
+    public String viewTeacherMessages(@RequestParam("courseId") String courseId,Model model) {
+//        String g=s.getTeacherUsernameByCourseId(courseId);
+        String g="";
 
+        System.out.println(g);
+        List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,g,"t");
+        model.addAttribute("messages", messages); // Add messages to the model
+        if (messages != null) {
+            for (Map<String, Object> message : messages) {
+                System.out.println("Sender: " + message.get("sender"));
+                System.out.println("Receiver: " + message.get("receiver"));
+                System.out.println("Text: " + message.get("text"));
+                System.out.println("Date: " + message.get("date"));
+                System.out.println("Role: " + message.get("role"));
+                System.out.println("------------------------");
+            }
+        } else {
+            System.out.println("No messages found.");
+        }
+        return "streamMessages"; // View name or redirection
+    }
+    @PostMapping("/sendStudentMessages")
+    public String sendStudentMessages(@RequestParam("courseId") String courseId,Model model) {
+        model.addAttribute("courseId", courseId);
+
+        return "studentSendMessages"; // View name or redirection
+    }
+    @PostMapping("/viewStudentMessages")
+    public String viewStudentMessages(@RequestParam("courseId") String courseId,Model model) {
+        model.addAttribute("courseId", courseId);
+
+        return "studentViewMessages"; // View name or redirection
+    }
+    @PostMapping("/viewMessages")
+    public String viewMessages(@RequestParam("courseId") String courseId,
+                               @RequestParam("username") String user,
+                               Model model) {
+        List<Map<String, Object>> messages= s.getMessagesBySenderReceiverAndRole(username,user,"t");
+        model.addAttribute("messages", messages); // Add messages to the model
+        return "streamMessages"; // This should be a .html file in your resources/templates directory
+    }
+    @PostMapping("/sendMessages")
+    public String sendMessages(@RequestParam("courseId") String courseId,
+                               @RequestParam("username") String user,
+                               @RequestParam("messageText") String messageText,
+                               Model model) {
+            return s.insertMessage(username,user,"t",messageText);
+    }
 }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Messages</title>
+</head>
+<body>
+<h1>Student Send Messages</h1>
+<form action="/sendMessages" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required />
+
+    <!-- New input field for message text -->
+    <label for="messageText">Message Text:</label>
+    <input type="text" id="messageText" name="messageText" required />
+
+    <button type="submit">Send Message</button>
+</form>
+</body>
+</html>
