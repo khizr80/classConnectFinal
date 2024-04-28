@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Repository
@@ -38,5 +39,14 @@ public class Teacher implements Login {
                 new Course(rs.getString("course_id"), rs.getString("course_name"))
         );
     }
+    public List<Map<String, Object>> getMessagesBySenderReceiverAndRole(String sender, String receiver, String role) {
 
+        String sql = "SELECT sender, receiver, text, `date`, roll " +
+                "FROM message " +
+                "WHERE receiver = '" + receiver + "' AND sender = '" + sender + "' AND roll = '" + role + "'";
+
+        return jdbcTemplate.queryForList(sql);
+    }
 }
+
+

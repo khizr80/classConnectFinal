@@ -39,5 +39,16 @@ public class TeacherController {
         System.out.println(courses.get(0));
         return "courseTeacher"; // Ensure this redirects or forwards to the appropriate view
     }
+    @PostMapping("/submitCourseTeacher")
+    public String handleCourseSubmission(@RequestParam("courseId") String courseId,Model model) {
+        model.addAttribute("courseId", courseId);
+        return "courseDetailsTeacher"; // Redirect or forward to a view displaying details of the submitted course
+    }
+    @PostMapping("/viewStreamMessagesTeacher")
+    public String viewStreamMessages(@RequestParam("courseId") String courseId,Model model) {
+        List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,courseId,"c");
+        model.addAttribute("messages", messages); // Add messages to the model
+        return "streamMessages"; // View name or redirection
+    }
 
 }

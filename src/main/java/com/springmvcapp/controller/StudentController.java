@@ -46,10 +46,7 @@ import java.util.Map;
 
     @PostMapping("/submitCourse")
     public String handleCourseSubmission(@RequestParam("courseId") String courseId,Model model) {
-        // Handle the course ID, e.g., register the user for the course, display course details, etc.
-        System.out.println("Course ID submitted: " + courseId);
         model.addAttribute("courseId", courseId);
-        // Redirect to another page or return a view name
         return "courseDetails"; // Redirect or forward to a view displaying details of the submitted course
     }
     @PostMapping("/viewStreamMessages")
