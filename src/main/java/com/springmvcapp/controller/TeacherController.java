@@ -50,5 +50,20 @@ public class TeacherController {
         model.addAttribute("messages", messages); // Add messages to the model
         return "streamMessages"; // View name or redirection
     }
+    @PostMapping("/sendStreamMessageTeacher")
+    public String sendStreamMessage(@RequestParam("courseId") String courseId,Model model) {
+        model.addAttribute("courseId", courseId);
+        //String g=s.getTeacherUsernameByCourseId(courseId);
+        //model.addAttribute("teacherUsername", g);
+        return "messageTeacher"; // Redirect after sending message
+    }
+    @PostMapping("/sendStreamMessageTeacher2")
+    public String sendStreamMessage(@RequestParam("courseId") String courseId,
+                                    @RequestParam("messageText") String messageText,
+                                    Model model,@RequestParam("action") String action) {
+
+            return s.insertMessage(username,courseId,"c",messageText);
+
+    }
 
 }

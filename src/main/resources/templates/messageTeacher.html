@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Stream Message</title>
+</head>
+<body>
+<!-- Form to submit stream message -->
+<form th:action="@{/sendStreamMessageTeacher2}" method="post">
+    <!-- Hidden input to store and send course ID -->
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+
+    <!-- Input field for entering message text -->
+    <label for="messageText">Message:</label>
+    <input type="text" id="messageText" name="messageText" placeholder="Enter your message here" required />
+
+<!--    <button type="submit" name="action" value="teacher">Send Message to teacher </button>-->
+    <button type="submit" name="action" value="course">Save message in stream</button>
+
+</form>
+</body>
+</html>

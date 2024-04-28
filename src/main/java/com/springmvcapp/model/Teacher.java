@@ -1,9 +1,12 @@
 package com.springmvcapp.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +49,19 @@ public class Teacher implements Login {
                 "WHERE receiver = '" + receiver + "' AND sender = '" + sender + "' AND roll = '" + role + "'";
 
         return jdbcTemplate.queryForList(sql);
+    }
+    public String insertMessage(String senderId, String receiverId, String role, String messageText) {
+
+        String sql = "INSERT INTO message (sender, receiver, date, text, roll) VALUES (?, ?, ?, ?, ?)";
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = now.format(formatter);
+        try {
+            jdbcTemplate.update(sql, senderId, receiverId, formattedDate, messageText, role);
+            return "success";
+        } catch (DataIntegrityViolationException e) {
+            return "teacher";
+        }
     }
 }
 

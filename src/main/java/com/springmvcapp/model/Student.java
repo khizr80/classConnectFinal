@@ -55,9 +55,6 @@ public class Student implements Login {
         );
     }
     public String insertMessage(String senderId, String receiverId, String role, String messageText) {
-//        if (senderId.isEmpty() || receiverId.isEmpty() || role.isEmpty() || messageText.isEmpty()) {
-//            return "fieldEmpty";
-//        }
 
         String sql = "INSERT INTO message (sender, receiver, date, text, roll) VALUES (?, ?, ?, ?, ?)";
         LocalDateTime now = LocalDateTime.now();

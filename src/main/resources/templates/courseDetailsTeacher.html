@@ -15,7 +15,7 @@
     <button type="submit">View Stream Messages</button>
 </form>
 
-<form th:action="@{/sendStreamMessage}" method="post">
+<form th:action="@{/sendStreamMessageTeacher}" method="post">
     <input type="hidden" name="courseId" th:value="${courseId}" />
     <button type="submit">Send Stream Message</button>
 </form>
