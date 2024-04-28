@@ -70,7 +70,8 @@ public class Student implements Login {
             return "teacher";
         }
     }
-    public String getTeacherUsernameByCourseId(String courseId) {
+    public String getTeacherUsernameByCourseId(String courseId)
+    {
         if (courseId == null || courseId.isEmpty()) {
             return null;
         }
@@ -86,6 +87,18 @@ public class Student implements Login {
 
         return jdbcTemplate.queryForList(sql);
     }
+    public List<Map<String, Object>> getTranscriptByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        String sql = "SELECT courseName, Grade, courseID FROM transcript WHERE student_id = ?";
+        return jdbcTemplate.queryForList(sql, username);
+    }
+
+
+
+
 }
 
 // Getter for userName
