@@ -76,9 +76,19 @@ public class Teacher implements Login {
             return "error"; // Handle error, redirect to error page or display error message
         }
     }
+//    public List<String> getStudentsByCourseAndTeacher(String courseId, String teacherUsername) {
+//        String sql = "SELECT student_id FROM course_students WHERE course_id = ? AND teacherUsername = ?";
+//        return jdbcTemplate.queryForList(sql, String.class, courseId, teacherUsername);
+//    }
     public List<String> getStudentsByCourseAndTeacher(String courseId, String teacherUsername) {
         String sql = "SELECT student_id FROM course_students WHERE course_id = ? AND teacherUsername = ?";
-        return jdbcTemplate.queryForList(sql, String.class, courseId, teacherUsername);
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, courseId, teacherUsername);
+
+        List<String> students = new ArrayList<>();
+        for (Map<String, Object> row : resultList) {
+            students.add((String) row.get("student_id"));
+        }
+        return students;
     }
     public String getUsernameFromCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
