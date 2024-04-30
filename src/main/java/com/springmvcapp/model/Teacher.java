@@ -1,5 +1,7 @@
 package com.springmvcapp.model;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -63,7 +65,32 @@ public class Teacher implements Login {
             return "teacher";
         }
     }
-
+    public String insertEvaluation(String courseId, String evaluationName, String weightage, String totalMarks, List<String> studentUsernames) {
+        String sql = "INSERT INTO Marks (courseID, evaluationName, weightage, totalMarks, studentUsername) VALUES (?, ?, ?, ?, ?)";
+        try {
+            for (String studentUsername : studentUsernames) {
+                jdbcTemplate.update(sql, courseId, evaluationName, weightage, totalMarks, studentUsername);
+            }
+            return "success"; // Redirect to success page
+        } catch (DataIntegrityViolationException e) {
+            return "error"; // Handle error, redirect to error page or display error message
+        }
+    }
+    public List<String> getStudentsByCourseAndTeacher(String courseId, String teacherUsername) {
+        String sql = "SELECT student_id FROM course_students WHERE course_id = ? AND teacherUsername = ?";
+        return jdbcTemplate.queryForList(sql, String.class, courseId, teacherUsername);
+    }
+    public String getUsernameFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("username".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
 }
 
 

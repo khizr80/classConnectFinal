@@ -114,4 +114,35 @@ public class TeacherController {
                                Model model) {
             return s.insertMessage(username,user,"t",messageText);
     }
+//    @PostMapping("/uploadMarks")
+//    public String uploadMarks(@RequestParam("courseId") String courseId,
+//                               Model model) {
+//
+//    }
+
+    @PostMapping("/setMarksEvaluation")
+    public String setMarksEvaluation(@RequestParam("courseId") String courseId,
+                               Model model) {
+        model.addAttribute("courseId", courseId);
+       return "SetMarkEvaluation";
+
+    }
+    @PostMapping("/submitEvaluation")
+    public String submitEvaluation(@RequestParam("courseId") String courseId,
+                                   @RequestParam("evaluationName") String evaluationName,
+                                   @RequestParam("weightage") String weightage,
+                                   @RequestParam("totalMarks") String totalMarks,
+                                     Model model) {
+
+        List<String> getstudentsofcourse = s.getStudentsByCourseAndTeacher(courseId,username);
+        // Print the list of students
+        for (String student : getstudentsofcourse) {
+            System.out.println("Student ID: " + student);
+        }
+
+        return "success";
+
+    }
+
+
 }
