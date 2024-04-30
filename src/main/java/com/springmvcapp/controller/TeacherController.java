@@ -134,12 +134,9 @@ public class TeacherController {
                                    @RequestParam("totalMarks") String totalMarks,
                                      Model model) {
 
-        List<String> getstudentsofcourse = s.getStudentsByCourseAndTeacher(courseId,username);
-        // Print the list of students
-        for (String student : getstudentsofcourse) {
-            System.out.println("Student ID: " + student);
-        }
+        List<String> getstudentsofcourse = s.getStudentsByCourseAndTeacher("4",username);
 
+        s.insertEvaluation("4",evaluationName,weightage,totalMarks,getstudentsofcourse);
         return "success";
 
     }
