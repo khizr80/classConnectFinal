@@ -40,6 +40,38 @@ private String password;
             return "userAlreadyExists";
         }
     }
+    public boolean checkTeacherExists(String teacherUsername) {
+        // Write your logic here to check if the teacher exists in the database
+        // You can execute a query to check if the teacher with the provided username exists
+        String sql = "SELECT COUNT(*) FROM teacher WHERE username = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, teacherUsername);
+        return count > 0;
+    }
+
+    public String offerCourse(int courseId, int semester, String teacherUsername, String courseName) {
+        // Validate input parameters
+        if (courseName.isEmpty() || teacherUsername.isEmpty()) {
+            return "fieldsEmpty";
+        }
+
+        // Check if the teacher exists (You might want to implement this method in Admin class)
+        // Assuming you have a method to check if the teacher exists
+        boolean teacherExists = checkTeacherExists(teacherUsername);
+        if (!teacherExists) {
+            return "teacherNotFound";
+        }
+
+        // Save course details to the database
+        String sql = "INSERT INTO course (course_id, course_name, teacherUsername, status, semester) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            jdbcTemplate.update(sql, courseId, courseName, teacherUsername, 1, semester);
+            return "courseOffered";
+        } catch (DataIntegrityViolationException e) {
+            return "courseAlreadyExists";
+        }
+    }
+
     public String deleteTeacher(String username) {
         if(username.isEmpty()) {
             return "fieldEmpty";

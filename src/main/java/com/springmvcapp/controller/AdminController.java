@@ -33,4 +33,21 @@ public class AdminController {
             return y; // Ensure this redirects or forwards to the appropriate view
         }
     }
+    @PostMapping("/offerCourseForm")
+    public String showOfferCourseForm() {
+        return "offer_course_form"; // This will be a new HTML file for the form
+    }
+
+    @PostMapping("/offerCourse")
+    public String offerCourse(@RequestParam("courseId") int courseId,
+                              @RequestParam("semester") int semester,
+                              @RequestParam("teacherUsername") String teacherUsername,
+                              @RequestParam("courseName") String courseName,
+                              Model model) {
+        String result = a1.offerCourse(courseId, semester, teacherUsername, courseName);
+        model.addAttribute("result", result);
+        return "offer_course_result"; // This will be a new HTML file for showing the result
+    }
+
+
 }

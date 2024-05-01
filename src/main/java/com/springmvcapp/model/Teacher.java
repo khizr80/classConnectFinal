@@ -131,13 +131,15 @@ public class Teacher implements Login {
         String formattedDate = now.format(formatter);
 
         // Save present students
-        for (String studentId : presentStudents) {
+        for (String studentId : presentStudents)
+        {
             String sql = "INSERT INTO attendance (student_id, course_id, date, status) VALUES (?, ?, ?, ?)";
             jdbcTemplate.update(sql, studentId, courseId, formattedDate, "Present");
         }
 
         // Save absent students
-        for (String studentId : absentStudents) {
+        for (String studentId : absentStudents)
+        {
             String sql = "INSERT INTO attendance (student_id, course_id, date, status) VALUES (?, ?, ?, ?)";
             jdbcTemplate.update(sql, studentId, courseId, formattedDate, "Absent");
         }
