@@ -67,7 +67,6 @@ public class Teacher implements Login {
         }
     }
     public String insertEvaluation(String courseId, String evaluationName, String weightage, String totalMarks, List<String> studentUsernames) {
-
         String sql = "INSERT INTO Marks (courseID, evaluationName, weightage, totalMarks, studentUsername) VALUES (?, ?, ?, ?, ?)";
         try {
             for (String studentUsername : studentUsernames) {
@@ -78,7 +77,10 @@ public class Teacher implements Login {
             return "error"; // Handle error, redirect to error page or display error message
         }
     }
-
+//    public List<String> getStudentsByCourseAndTeacher(String courseId, String teacherUsername) {
+//        String sql = "SELECT student_id FROM course_students WHERE course_id = ? AND teacherUsername = ?";
+//        return jdbcTemplate.queryForList(sql, String.class, courseId, teacherUsername);
+//    }
     public List<String> getStudentsByCourseAndTeacher(String courseId, String teacherUsername) {
         String sql = "SELECT student_id FROM course_students WHERE course_id = ? AND teacherUsername = ?";
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, courseId, teacherUsername);
@@ -88,6 +90,14 @@ public class Teacher implements Login {
             students.add((String) row.get("student_id"));
         }
         return students;
+    }
+    public void insertMarks(List<String> studentUsernames, String evaluationName, String weightage, String totalMarks, String teacherUsername, String courseId, String obtainedMarks) {
+        String sql = "INSERT INTO Marks (studentUsername, evaluationName, weightage, totalMarks, teacherUsername, courseID, obtainedMarks) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        for (int i = 0; i < studentUsernames.size(); i++) {
+            String studentUsername = studentUsernames.get(i);
+            jdbcTemplate.update(sql, studentUsername, evaluationName, weightage, totalMarks, teacherUsername, courseId, obtainedMarks);
+        }
     }
 
     public List<Map<String, Object>> getStudentsByCourseId(String courseId) {
@@ -119,7 +129,6 @@ public class Teacher implements Login {
             jdbcTemplate.update(sql, studentId, courseId, formattedDate, "Absent");
         }
     }
-
 
 }
 

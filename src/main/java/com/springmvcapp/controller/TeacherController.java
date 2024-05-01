@@ -5,6 +5,7 @@ import com.springmvcapp.model.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,11 +116,12 @@ public class TeacherController {
                                Model model) {
             return s.insertMessage(username,user,"t",messageText);
     }
-//    @PostMapping("/uploadMarks")
-//    public String uploadMarks(@RequestParam("courseId") String courseId,
-//                               Model model) {
-//
-//    }
+    @PostMapping("/uploadMarks")
+    public String uploadMarks(@RequestParam("courseId") String courseId,
+                               Model model) {
+
+        return "success";
+    }
 
     @PostMapping("/setMarksEvaluation")
     public String setMarksEvaluation(@RequestParam("courseId") String courseId,
@@ -135,12 +137,13 @@ public class TeacherController {
                                    @RequestParam("totalMarks") String totalMarks,
                                      Model model) {
 
-        List<String> getstudentsofcourse = s.getStudentsByCourseAndTeacher("4",username);
+        List<String> getstudentsofcourse = s.getStudentsByCourseAndTeacher(courseId,username);
 
-        s.insertEvaluation("4",evaluationName,weightage,totalMarks,getstudentsofcourse);
+s.insertMarks(getstudentsofcourse,evaluationName,weightage,totalMarks,username,courseId,"0");
         return "success";
 
     }
+
     @PostMapping("/markAttendance")
     public String markAttendance(@RequestParam("courseId") String courseId, Model model) {
         List<Map<String, Object>> students = s.getStudentsByCourseId(courseId); // Fetch students enrolled in the course
