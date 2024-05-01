@@ -173,6 +173,7 @@ public class TeacherController {
         for (Map.Entry<String, String> entry : attendance.entrySet()) {
             String studentId = entry.getKey();
             String status = entry.getValue();
+            System.out.println("Student ID: " + studentId + ", Status: " + status);
             if ("present".equals(status)) {
                 presentStudents.add(studentId);
             } else if ("absent".equals(status)) {
@@ -185,21 +186,33 @@ public class TeacherController {
         // Redirect to course details page
         return "redirect:/viewCourseTeacher";
     }
-//    //
-        //return "success"; // Redirect to a success page or any other appropriate page
-    //}
-@PostMapping("/submitMarks")
-public String submitMarks(@RequestParam("courseId") String courseId,
-                          @RequestParam("evaluationName") String evaluationName,
-                          @RequestParam Map<String, String> formParams) {
+    @PostMapping("/submitMarks")
+    public String submitMarks(@RequestParam("courseId") String courseId,
+                              @RequestParam("evaluationName") String evaluationName,
+                              @RequestParam Map<String, String> obtainedMarksMap) {
+        List<String> studentUsernames = s.getStudentsByCourseAndTeacher(courseId, username);
+        List<String> y = new ArrayList<>();
+        for (Map.Entry<String, String> entry : obtainedMarksMap.entrySet()) {
+            String studentUsername = entry.getKey();
+            String obtainedMarks = entry.getValue();
+            y.add(obtainedMarks);
+        }
 
-    for (Map.Entry<String, String> entry : formParams.entrySet()) {
-        String paramName = entry.getKey();
-        String value = entry.getValue();
-        System.out.println("Parameter Name: " + paramName + ", Value: " + value);
+        // Delete the first two elements of 'y'
+        if (y.size() >= 2) {
+            y.remove(0); // Remove first element
+            y.remove(0); // Remove second element (after removal, what was at index 2 becomes the new index 0)
+        } else if (y.size() == 1) {
+            y.remove(0); // Remove the first element if only one element is present
+        }
+        for (int i = 0; i < studentUsernames.size(); i++) {
+            String studentUsername = studentUsernames.get(i);
+            if (i < y.size()) {
+                String obtainedMarks = y.get(i);
+                s.saveObtainedMarks(courseId,evaluationName, studentUsername, obtainedMarks);
+            }
+        }
+        return "success";
     }
-    return "success";
-}
-
 
 }
