@@ -119,8 +119,11 @@ public class TeacherController {
     @PostMapping("/uploadMarks")
     public String uploadMarks(@RequestParam("courseId") String courseId,
                                Model model) {
+        List<String> getstudentsofcourse=s.getDistinctEvaluationNames(courseId,username);
+        model.addAttribute("evaluationNames", getstudentsofcourse);
+        model.addAttribute("courseId", courseId);
 
-        return "success";
+        return "evaluationName";
     }
 
     @PostMapping("/setMarksEvaluation")
@@ -130,16 +133,33 @@ public class TeacherController {
        return "SetMarkEvaluation";
 
     }
+    @PostMapping("/processMarks")
+    public String setMarksEvaluate(@RequestParam("courseId") String courseId, @RequestParam("evaluationName") String evaluationName,
+                                     Model model) {
+        model.addAttribute("courseId", courseId);
+        List<Map<String, Object>> marksList=s.getMarksByCourseAndEvaluation(courseId,evaluationName,username);
+        for (Map<String, Object> marks : marksList) {
+            System.out.println("Student Username: " + marks.get("studentUsername"));
+            System.out.println("Obtained Marks: " + marks.get("obtainedMarks"));
+            System.out.println("Total Marks: " + marks.get("totalMarks"));
+            System.out.println();
+        }
+        model.addAttribute("marksList", marksList); // Corrected line
+
+        return "uploadMarksForm";
+
+    }
     @PostMapping("/submitEvaluation")
     public String submitEvaluation(@RequestParam("courseId") String courseId,
                                    @RequestParam("evaluationName") String evaluationName,
                                    @RequestParam("weightage") String weightage,
                                    @RequestParam("totalMarks") String totalMarks,
-                                     Model model) {
+                                     Model model)
+    {
 
         List<String> getstudentsofcourse = s.getStudentsByCourseAndTeacher(courseId,username);
 
-s.insertMarks(getstudentsofcourse,evaluationName,weightage,totalMarks,username,courseId,"0");
+        s.insertMarks(getstudentsofcourse,evaluationName,weightage,totalMarks,username,courseId,"0");
         return "success";
 
     }
@@ -174,7 +194,23 @@ s.insertMarks(getstudentsofcourse,evaluationName,weightage,totalMarks,username,c
         // Redirect to course details page
         return "redirect:/viewCourseTeacher";
     }
+    @PostMapping("/submitMarks")
+    public String submitMarks(@RequestParam("courseId") String courseId,
+                              @RequestParam("evaluationName") String evaluationName,
+                              @RequestParam Map<String,String> obtainedMarksMap,
+                              Model model) {
+        // Iterate over the obtained marks submitted by the form
+        for (Map.Entry<String, String> entry : obtainedMarksMap.entrySet()) {
+            String studentUsername = entry.getKey();
+            String obtainedMarks = entry.getValue();
+            System.out.println(obtainedMarks);
+            System.out.println(studentUsername);
+            // Call a method in MarksService to save the obtained marks
+            s.saveObtainedMarks(courseId, evaluationName, studentUsername, obtainedMarks);
+        }
 
+        return "success"; // Redirect to a success page or any other appropriate page
+    }
 
 
 

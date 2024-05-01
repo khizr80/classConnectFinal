@@ -99,7 +99,20 @@ public class Teacher implements Login {
             jdbcTemplate.update(sql, studentUsername, evaluationName, weightage, totalMarks, teacherUsername, courseId, obtainedMarks);
         }
     }
-
+    public List<String> getDistinctEvaluationNames(String courseId, String teacherUsername) {
+        String sql = "SELECT DISTINCT evaluationName FROM Marks WHERE courseID = ? AND teacherUsername = ?";
+        List<String> evaluationNames = jdbcTemplate.queryForList(sql, String.class, courseId, teacherUsername);
+        return evaluationNames;
+    }
+    public List<Map<String, Object>> getMarksByCourseAndEvaluation(String courseId, String evaluationName, String teacherUsername) {
+        String sql = "SELECT studentUsername, obtainedMarks, totalMarks FROM Marks WHERE courseId = ? AND evaluationName = ? AND teacherUsername = ?";
+        List<Map<String, Object>> marksList = jdbcTemplate.queryForList(sql, courseId, evaluationName, teacherUsername);
+        return marksList;
+    }
+    public void saveObtainedMarks(String courseId, String evaluationName, String studentUsername, String obtainedMarks) {
+        String sql = "UPDATE Marks SET obtainedMarks = ? WHERE courseId = ? AND evaluationName = ? AND studentUsername = ?";
+        jdbcTemplate.update(sql, obtainedMarks, courseId, evaluationName, studentUsername);
+    }
     public List<Map<String, Object>> getStudentsByCourseId(String courseId) {
         if (courseId == null || courseId.isEmpty()) {
             return new ArrayList<>();

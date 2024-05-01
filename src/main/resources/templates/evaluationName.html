@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Marks</title>
+</head>
+<body>
+<h1>Upload Marks</h1>
+<h2>Course ID: <span th:text="${courseId}"></span></h2>
+
+<h3>Evaluation Names:</h3>
+<ul>
+    <!-- Loop through each evaluation name and create a button -->
+    <li th:each="evaluationName : ${evaluationNames}">
+        <form action="/processMarks" method="post">
+            <input type="hidden" name="courseId" th:value="${courseId}">
+            <input type="hidden" name="evaluationName" th:value="${evaluationName}">
+            <button type="submit" th:text="${evaluationName}"></button>
+        </form>
+    </li>
+</ul>
+</body>
+</html>

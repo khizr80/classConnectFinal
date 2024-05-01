@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Marks Evaluation</title>
+</head>
+<body>
+
+<h1>Set Marks Evaluation</h1>
+<form action="/submitMarks" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}">
+    <input type="hidden" name="evaluationName" th:value="${evaluationName}">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Student Username</th>
+            <th>Obtained Marks</th>
+            <th>Total Marks</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through each marks data -->
+        <tr th:each="marks : ${marksList}">
+            <td th:text="${marks['studentUsername']}"></td>
+            <!-- Adjusted input field name to include student username -->
+            <td><input type="number" name="obtainedMarks__${marks['studentUsername']}" th:value="${marks['obtainedMarks']}"></td>
+            <td th:text="${marks['totalMarks']}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
