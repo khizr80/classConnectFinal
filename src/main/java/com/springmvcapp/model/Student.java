@@ -94,7 +94,12 @@ public class Student implements Login {
     }
 
 
-
+    public List<Map<String, Object>> getMarks(String studentUsername, String teacherUsername, String courseId) {
+        String sql = "SELECT studentUsername, teacherUsername, courseId, evaluationName, totalMarks, obtainedMarks, weightage " +
+                "FROM Marks " +
+                "WHERE studentUsername = ? AND teacherUsername = ? AND courseId = ?";
+        return jdbcTemplate.queryForList(sql, studentUsername, teacherUsername, courseId);
+    }
 
 }
 

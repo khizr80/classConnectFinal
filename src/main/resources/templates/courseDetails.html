@@ -24,6 +24,9 @@
     <input type="hidden" name="courseId" th:value="${courseId}" />
     <button type="submit">View Teacher Messages</button>
 </form>
-
+<form th:action="@{/viewMarksStudent}" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+    <button type="submit">View Marks</button>
+</form>
 </body>
 </html>

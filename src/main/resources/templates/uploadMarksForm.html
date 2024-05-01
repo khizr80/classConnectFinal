@@ -25,7 +25,10 @@
         <tr th:each="marks : ${marksList}">
             <td th:text="${marks['studentUsername']}"></td>
             <!-- Adjusted input field name to include student username -->
-            <td><input type="number" name="obtainedMarks__${marks['studentUsername']}" th:value="${marks['obtainedMarks']}"></td>
+            <td>
+                <input type="number" name="obtained marks" th:value="${marks['obtainedMarks']}">
+                <input type="hidden" name="studentUsername" th:value="${marks['studentUsername']}">
+            </td>
             <td th:text="${marks['totalMarks']}"></td>
         </tr>
         </tbody>

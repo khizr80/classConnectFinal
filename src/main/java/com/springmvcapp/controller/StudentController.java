@@ -121,5 +121,12 @@ import java.util.Map;
         }
         return null;
     }
+    @PostMapping("/viewMarksStudent")
+    public String viewMarksStudent(@RequestParam("courseId") String courseId,Model model) {
+        String f=s.getTeacherUsernameByCourseId(courseId);
+        List<Map<String, Object>> marksData= s.getMarks(username,f,courseId);
+        model.addAttribute("marksData", marksData);
+        return "viewMarksStudentPage"; // Return the name of the Thymeleaf template to render
+    }
 }
 

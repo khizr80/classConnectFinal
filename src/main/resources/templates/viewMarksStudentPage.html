@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Marks</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<h1>Marks Data</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Student Username</th>
+    <th>Teacher Username</th>
+    <th>Course ID</th>
+    <th>Evaluation Name</th>
+    <th>Total Marks</th>
+    <th>Obtained Marks</th>
+    <th>Weightage</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Thymeleaf iteration to display marks data -->
+  <tr th:each="mark : ${marksData}">
+    <td th:text="${mark['studentUsername']}"></td>
+    <td th:text="${mark['teacherUsername']}"></td>
+    <td th:text="${mark['courseId']}"></td>
+    <td th:text="${mark['evaluationName']}"></td>
+    <td th:text="${mark['totalMarks']}"></td>
+    <td th:text="${mark['obtainedMarks']}"></td>
+    <td th:text="${mark['weightage']}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
