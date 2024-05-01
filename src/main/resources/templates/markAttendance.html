@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mark Attendance</title>
+</head>
+<body>
+<h1>Mark Attendance</h1>
+<form th:action="@{/saveAttendance}" method="post">
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+    <table>
+        <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Present</th>
+            <th>Absent</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over students and display attendance options -->
+        <tbody>
+        <!-- Iterate over students and display attendance options -->
+        <tr th:each="student : ${students}">
+            <td th:text="${student.studentId}"></td>
+            <td><input type="radio" name="attendance[${student.studentId}]" value="present" /></td>
+            <td><input type="radio" name="attendance[${student.studentId}]" value="absent" /></td>
+        </tr>
+        </tbody>
+
+
+    </table>
+    <button type="submit">Save Attendance</button>
+</form>
+</body>
+</html>

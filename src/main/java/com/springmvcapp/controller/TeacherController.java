@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @Controller
@@ -140,6 +141,38 @@ public class TeacherController {
         return "success";
 
     }
+    @PostMapping("/markAttendance")
+    public String markAttendance(@RequestParam("courseId") String courseId, Model model) {
+        List<Map<String, Object>> students = s.getStudentsByCourseId(courseId); // Fetch students enrolled in the course
+        model.addAttribute("students", students);
+        model.addAttribute("courseId", courseId);
+        return "markAttendance"; // Display the mark attendance form
+    }
+
+    @PostMapping("/saveAttendance")
+    public String saveAttendance(@RequestParam("courseId") String courseId,
+                                 @RequestParam Map<String, String> attendance) {
+        List<String> presentStudents = new ArrayList<>();
+        List<String> absentStudents = new ArrayList<>();
+
+        // Iterate over the attendance map and separate present and absent students
+        for (Map.Entry<String, String> entry : attendance.entrySet()) {
+            String studentId = entry.getKey();
+            String status = entry.getValue();
+            if ("present".equals(status)) {
+                presentStudents.add(studentId);
+            } else if ("absent".equals(status)) {
+                absentStudents.add(studentId);
+            }
+        }
+
+        // Save attendance in the database
+        s.saveAttendance(courseId, presentStudents, absentStudents);
+        // Redirect to course details page
+        return "redirect:/viewCourseTeacher";
+    }
+
+
 
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -87,6 +88,36 @@ public class Teacher implements Login {
             students.add((String) row.get("student_id"));
         }
         return students;
+    }
+
+    public List<Map<String, Object>> getStudentsByCourseId(String courseId) {
+        if (courseId == null || courseId.isEmpty()) {
+            return new ArrayList<>();
+        }
+        String sql = "SELECT student_id FROM course_students WHERE course_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{courseId}, (rs, rowNum) -> {
+            Map<String, Object> studentMap = new HashMap<>();
+            studentMap.put("studentId", rs.getString("student_id"));
+            return studentMap;
+        });
+    }
+
+    public void saveAttendance(String courseId, List<String> presentStudents, List<String> absentStudents) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = now.format(formatter);
+
+        // Save present students
+        for (String studentId : presentStudents) {
+            String sql = "INSERT INTO attendance (student_id, course_id, date, status) VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(sql, studentId, courseId, formattedDate, "Present");
+        }
+
+        // Save absent students
+        for (String studentId : absentStudents) {
+            String sql = "INSERT INTO attendance (student_id, course_id, date, status) VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(sql, studentId, courseId, formattedDate, "Absent");
+        }
     }
 
 
