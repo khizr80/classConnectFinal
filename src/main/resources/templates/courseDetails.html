@@ -28,5 +28,10 @@
     <input type="hidden" name="courseId" th:value="${courseId}" />
     <button type="submit">View Marks</button>
 </form>
+<form th:action="@{/viewStudentAttendance}" method="post"> <!-- New form for viewing attendance -->
+    <input type="hidden" name="courseId" th:value="${courseId}" />
+    <button type="submit">View Attendance</button> <!-- Button for viewing attendance -->
+</form>
+
 </body>
 </html>

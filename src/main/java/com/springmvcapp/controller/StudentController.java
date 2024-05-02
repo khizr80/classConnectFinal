@@ -145,5 +145,14 @@ import java.util.Map;
 
         return "success";
     }
+    @PostMapping("/viewStudentAttendance")
+    public String viewStudentAttendance(@RequestParam("courseId") String courseId, Model model) {
+        model.addAttribute("courseId", courseId);
+        String g=s.getTeacherUsernameByCourseId(courseId);
+        List<Map<String, Object>> attendanceData= s.getAttendanceByStudentAndCourseAndTeacher(username,courseId,g);
+        model.addAttribute("attendanceData", attendanceData);
+
+        return "studentAttendanceView";
+    }
 }
 
