@@ -58,6 +58,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>Send Message to Student</h1>
 <form action="/sendMessages" method="post">
     <input type="hidden" name="courseId" th:value="${courseId}" />
@@ -71,5 +72,6 @@
 
     <button type="submit">Send Message</button>
 </form>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>

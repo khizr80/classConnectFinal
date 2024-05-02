@@ -59,6 +59,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>Mark Attendance</h1>
 <form th:action="@{/saveAttendance}" method="post">
     <input type="hidden" name="courseId" th:value="${courseId}" />
@@ -84,5 +85,6 @@
         </tbody>
     </table>
 </form>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>

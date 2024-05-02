@@ -37,6 +37,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>Admin</h1>
 <form method="POST" action="/addteacher">
     <button type="submit">add teacher</button>
@@ -53,5 +54,7 @@
 <form method="get" action="/approveRegistration">
     <button type="submit">Approved Registration</button>
 </form>
+
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>

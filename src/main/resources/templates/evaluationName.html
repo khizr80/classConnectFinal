@@ -65,7 +65,9 @@
         }
     </style>
 </head>
+
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>Upload Marks</h1>
 <h2>Course ID: <span th:text="${courseId}"></span></h2>
 
@@ -80,5 +82,7 @@
         </form>
     </li>
 </ul>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
+
 </body>
 </html>

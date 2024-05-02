@@ -42,10 +42,13 @@ form{
         }
     </style>
 </head>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <body>
 <h1>Welcome to Your Classroom</h1>
 <form method="POST" action="/viewCourseTeacher">
     <button type="submit">View Classes</button>
 </form>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
+
 </body>
 </html>

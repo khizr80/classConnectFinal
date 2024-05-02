@@ -37,6 +37,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>Register Course</h1>
 <form method="POST" action="/registerCoursesStudent2">
     <table>
@@ -61,5 +62,7 @@
         </tbody>
     </table>
 </form>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
+
 </body>
 </html>

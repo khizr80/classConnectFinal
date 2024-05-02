@@ -42,6 +42,8 @@
     </style>
 </head>
 <body>
+
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>Courses</h1>
 <div th:each="course : ${courses}">
     <form th:action="@{/submitCourse}" method="post">
@@ -49,5 +51,6 @@
         <button type="submit" th:text="${course.courseName}"></button>
     </form>
 </div>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>

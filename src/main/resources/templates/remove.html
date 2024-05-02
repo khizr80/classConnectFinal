@@ -44,10 +44,13 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <form method="post" action="/removeteacher">
     <input type="text" name="id" id="id" placeholder="id">
     <button type="submit" name="action" value="removeStudent">Remove student</button>
     <button type="submit" name="action" value="removeTeacher">Remove teacher</button>
 </form>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
+
 </body>
 </html>

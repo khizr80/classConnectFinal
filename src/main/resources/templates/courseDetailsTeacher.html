@@ -51,6 +51,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <div class="course-details">
     <h1>Course Details</h1>
     <input type="hidden" id="courseId" name="courseId" th:value="${courseId}" />
@@ -97,5 +98,6 @@
     </form>
 
 </div>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>

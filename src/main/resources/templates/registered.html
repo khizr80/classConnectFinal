@@ -41,6 +41,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>User name and password has been sent for approval</h1>
 <button onclick="redirectToIndex()">OK</button>
 
@@ -49,5 +50,6 @@
         window.location.href = "index.html";
     }
 </script>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>

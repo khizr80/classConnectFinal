@@ -54,6 +54,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <!-- Form to submit stream message -->
 <form th:action="@{/sendStreamMessage2}" method="post">
     <!-- Hidden input to store and send course ID -->
@@ -70,5 +71,6 @@
     <button type="submit" name="action" value="course">Save in Stream</button>
 
 </form>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>

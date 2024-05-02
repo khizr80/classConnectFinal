@@ -67,6 +67,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <form action="/submitMarks" method="post">
     <input type="hidden" name="courseId" th:value="${courseId}">
     <input type="hidden" name="evaluationName" th:value="${evaluationName}">
@@ -95,5 +96,6 @@
 
     <button type="submit">Submit</button>
 </form>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>

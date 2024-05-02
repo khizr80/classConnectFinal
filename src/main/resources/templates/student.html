@@ -51,6 +51,7 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>Student Dashboard</h1>
 <div class="btn-container">
 <form method="POST" action="/viewCourse">
@@ -64,5 +65,6 @@
     <button type="submit">Register In Courses</button>
 </form>
 </div>
+<footer th:replace="~{fragments/footer::footerFrag}"></footer>
 </body>
 </html>
