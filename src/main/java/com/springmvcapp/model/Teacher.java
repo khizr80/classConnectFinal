@@ -122,6 +122,11 @@ public class Teacher implements Login {
 
         jdbcTemplate.update(sql, studentId, teacherUsername, courseId, sqlDate, attendanceStatus);
     }
+
+    public List<Map<String, Object>> getClassProgress(String courseId) {
+        String sql = "SELECT evaluationName, AVG(obtainedMarks) AS averageMarks, MAX(obtainedMarks) AS maximumMarks, MIN(obtainedMarks) AS minimumMarks FROM Marks WHERE courseID = ? GROUP BY evaluationName";
+        return jdbcTemplate.queryForList(sql, courseId);
+    }
 }
 
 

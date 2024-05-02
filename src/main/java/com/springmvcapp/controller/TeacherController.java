@@ -188,5 +188,11 @@ public class TeacherController {
         }
         return "success";
     }
+    @PostMapping("/viewClassProgress")
+    public String viewClassProgress(@RequestParam("courseId") String courseId, Model model) {
+        List<Map<String, Object>> progressList = s.getClassProgress(courseId);
+        model.addAttribute("progressList", progressList);
+        return "classProgress";
+    }
 
 }

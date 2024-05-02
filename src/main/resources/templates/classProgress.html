@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Class Progress</title>
+</head>
+<body>
+<h1>Class Progress</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Evaluation Name</th>
+        <th>Average Marks</th>
+        <th>Maximum Marks</th>
+        <th>Minimum Marks</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="progress : ${progressList}">
+        <td th:text="${progress.evaluationName}"></td>
+        <td th:text="${progress.averageMarks}"></td>
+        <td th:text="${progress.maximumMarks}"></td>
+        <td th:text="${progress.minimumMarks}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -91,6 +91,10 @@
     <input type="hidden" name="courseId" th:value="${courseId}" />
     <button type="submit">Set Marks Evaluation</button>
 </form>
+    <form th:action="@{/viewClassProgress}" method="post">
+        <input type="hidden" name="courseId" th:value="${courseId}" />
+        <button type="submit">View Class Progress</button>
+    </form>
 
 </div>
 </body>
