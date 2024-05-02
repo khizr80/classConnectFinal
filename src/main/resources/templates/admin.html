@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin</title>
+    <title>Title</title>
     <style>
+        /* Your CSS styles go here */
         body {
             display: flex;
             flex-direction: column;
@@ -38,28 +39,19 @@
 <body>
 <h1>Admin</h1>
 <form method="POST" action="/addteacher">
-    <button type="submit">Add Teacher</button>
+    <button type="submit">add teacher</button>
 </form>
 <form method="POST" action="/remove">
-    <button type="submit">Remove User</button>
+    <button type="submit">remove user</button>
 </form>
 <form method="POST" action="/offerCourseForm">
     <button type="submit">Offer Course</button>
 </form>
-<form method="GET" action="/openRegistration">
+<form method="get" action="/openRegistration">
     <button type="submit">Open Registration</button>
 </form>
-<form method="GET" action="/approveRegistration">
-    <button type="submit">Approve Registration</button>
+<form method="get" action="/approveRegistration">
+    <button type="submit">Approved Registration</button>
 </form>
-<form>
-    <button onclick="logout()">Logout</button>
-</form>
-
-<script>
-    function logout() {
-        window.location.href = "index.html";
-    }
-</script>
 </body>
 </html>
