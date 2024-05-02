@@ -135,14 +135,34 @@ import java.util.Map;
         return "activeCourses"; // Redirect to the page to view courses after registration
     }
     @PostMapping("/registerCoursesStudent2")
-    public String registerCourse2(@RequestParam("courseId") String courseId,
-                                 @RequestParam("teacherUsername") String teacherUsername,
-                                 @RequestParam("courseName") String courseName
-                                ) {
-        System.out.println(courseName);
-        System.out.println(courseId);
-        System.out.println(teacherUsername);
+    public String registerCoursesStudent2(@RequestParam("courseInfo") String courseInfo, HttpServletRequest request, Model model) {
+        // Retrieve the username from the cookie
+        String username = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                    break;
+                }
+            }
+        }
 
+        // Split the concatenated value to extract course ID, teacher username, and course name
+        String[] parts = courseInfo.split(":");
+        String courseId = parts[0];
+        String teacherUsername = parts[1];
+        String courseName = parts[2];
+
+        // Here you can perform any necessary logic for registering the course
+        // For demonstration purposes, let's just print the extracted values
+        System.out.println("Course ID: " + courseId);
+        System.out.println("Teacher Username: " + teacherUsername);
+        System.out.println("Course Name: " + courseName);
+        System.out.println("Username: " + username);
+
+        s.registerCourse(courseId,teacherUsername,courseName,username);
+        // Redirect to a success page or return a view
         return "success";
     }
     @PostMapping("/viewStudentAttendance")

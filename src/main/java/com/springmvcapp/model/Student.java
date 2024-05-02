@@ -18,6 +18,7 @@ public class Student implements Login {
 
     @Override
     public String authenticate(String username, String password) {
+
         if (username.isEmpty() || password.isEmpty()) {
             return "fieldEmpty";
         }
@@ -106,7 +107,10 @@ public class Student implements Login {
         String sql = "SELECT * FROM attendance WHERE student_id = ? AND course_id = ? AND teacher_username = ?";
         return jdbcTemplate.queryForList(sql, studentUsername, courseId, teacherUsername);
     }
-
+    public void registerCourse(String courseId, String teacherUsername, String courseName, String studentId) {
+        String sql = "INSERT INTO course_students (course_id, student_id, courseName, teacherUsername) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, courseId, studentId, courseName, teacherUsername);
+    }
 
 }
 

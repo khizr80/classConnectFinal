@@ -22,14 +22,12 @@
             <td th:text="${course.course_name}">Course Name</td>
             <td th:text="${course.teacherUsername}">Teacher Username</td>
             <td>
-                <input type="radio" name="courseId" th:value="${course.course_id}">
-                <input type="hidden" name="teacherUsername" th:value="${course.teacherUsername}">
-                <input type="hidden" name="courseName" th:value="${course.course_name}">
+                <!-- Register Course button submits the form with concatenated values -->
+                <button type="submit" name="courseInfo" th:value="${course.course_id + ':' + course.teacherUsername + ':' + course.course_name}">Register Course</button>
             </td>
         </tr>
         </tbody>
     </table>
-    <button type="submit">Register Course</button>
 </form>
 </body>
 </html>
