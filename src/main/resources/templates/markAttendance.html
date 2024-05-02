@@ -12,7 +12,6 @@
         <thead>
         <tr>
             <th>Student ID</th>
-            <th>Student Name</th>
             <th>Present</th>
             <th>Absent</th>
         </tr>
@@ -21,13 +20,15 @@
         <!-- Iterate over students and display attendance options -->
         <tr th:each="student : ${students}">
             <td th:text="${student.studentId}"></td>
-
-            <td><input type="checkbox" name="attendance[${student.studentId}]" value="present" /></td>
-            <td><input type="checkbox" name="attendance[${student.studentId}]" value="absent" /></td>
+            <td>
+                <button type="submit" name="attendance" th:value="${student.studentId + ':1'}">Present</button>
+            </td>
+            <td>
+                <button type="submit" name="attendance" th:value="${student.studentId + ':0'}">Absent</button>
+            </td>
         </tr>
         </tbody>
     </table>
-    <button type="submit">Save Attendance</button>
 </form>
 </body>
 </html>

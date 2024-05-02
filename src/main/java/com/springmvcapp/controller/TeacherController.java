@@ -75,30 +75,16 @@ public class TeacherController {
         System.out.println(g);
         List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,g,"t");
         model.addAttribute("messages", messages); // Add messages to the model
-        if (messages != null) {
-            for (Map<String, Object> message : messages) {
-                System.out.println("Sender: " + message.get("sender"));
-                System.out.println("Receiver: " + message.get("receiver"));
-                System.out.println("Text: " + message.get("text"));
-                System.out.println("Date: " + message.get("date"));
-                System.out.println("Role: " + message.get("role"));
-                System.out.println("------------------------");
-            }
-        } else {
-            System.out.println("No messages found.");
-        }
         return "streamMessages"; // View name or redirection
     }
     @PostMapping("/sendStudentMessages")
     public String sendStudentMessages(@RequestParam("courseId") String courseId,Model model) {
         model.addAttribute("courseId", courseId);
-
         return "studentSendMessages"; // View name or redirection
     }
     @PostMapping("/viewStudentMessages")
     public String viewStudentMessages(@RequestParam("courseId") String courseId,Model model) {
         model.addAttribute("courseId", courseId);
-
         return "studentViewMessages"; // View name or redirection
     }
     @PostMapping("/viewMessages")
@@ -165,23 +151,22 @@ public class TeacherController {
 
     @PostMapping("/saveAttendance")
     public String saveAttendance(@RequestParam("courseId") String courseId,
-                                 @RequestParam Map<String, String> attendance) {
-        List<String> presentStudents = new ArrayList<>();
-        List<String> absentStudents = new ArrayList<>();
+                                 @RequestParam("attendance") String[] attendance,
+                                 Model model) {
 
-        // Iterate over the attendance map and separate present and absent students
-        for (Map.Entry<String, String> entry : attendance.entrySet()) {
-            String studentId = entry.getKey();
-            String status = entry.getValue();
-            System.out.println("Student ID: " + studentId + ", Status: " + status);
-            if ("present".equals(status)) {
-                presentStudents.add(studentId);
-            } else if ("absent".equals(status)) {
-                absentStudents.add(studentId);
-            }
+        // Assuming courseId and attendance are received correctly
+        // Process attendance data here
+        for (String entry : attendance) {
+            String[] parts = entry.split(":");
+            String username = parts[0];
+            int value = Integer.parseInt(parts[1]);
+            // Process attendance data, e.g., save it to the database
+            System.out.println("Username: " + username + ", Attendance: " + (value == 1 ? "Present" : "Absent"));
+            // You can implement the logic to save attendance to the database here
         }
-        s.saveAttendance(courseId, presentStudents, absentStudents);
-        return "redirect:/viewCourseTeacher";
+
+        // Redirect to a confirmation page or any other appropriate page
+        return "success";
     }
     @PostMapping("/submitMarks")
     public String submitMarks(@RequestParam("courseId") String courseId,
