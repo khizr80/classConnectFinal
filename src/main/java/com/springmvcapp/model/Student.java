@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 @Repository
 public class Student implements Login {
-    private String userName;
-    private String password;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -41,7 +39,6 @@ public class Student implements Login {
             jdbcTemplate.update(sql, username, password);
             return "registered";
         } catch (DataIntegrityViolationException e) {
-            // Handle the error when the username already exists
             return "userAlreadyExists";
         }
     }
