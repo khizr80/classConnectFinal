@@ -127,8 +127,8 @@ import java.util.Map;
         String courseId = parts[0];
         String teacherUsername = parts[1];
         String courseName = parts[2];
-        s.registerCourse(courseId,teacherUsername,courseName,username);
-        return "success";
+        return s.registerCourse(courseId,teacherUsername,courseName,username);
+
     }
     @PostMapping("/viewStudentAttendance")
     public String viewStudentAttendance(@RequestParam("courseId") String courseId, Model model) {
