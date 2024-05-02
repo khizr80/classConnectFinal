@@ -50,7 +50,7 @@ public class TeacherController {
     }
     @PostMapping("/viewStreamMessagesTeacher")
     public String viewStreamMessages(@RequestParam("courseId") String courseId,Model model) {
-        List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,courseId,"c");
+        List<Map<String, Object>> messages=s.getStreamMessages(username,courseId,"c");
         model.addAttribute("messages", messages); // Add messages to the model
         return "streamMessages"; // View name or redirection
     }
@@ -59,6 +59,7 @@ public class TeacherController {
         model.addAttribute("courseId", courseId);
         //String g=s.getTeacherUsernameByCourseId(courseId);
         //model.addAttribute("teacherUsername", g);
+        System.out.println("momos");
         return "messageTeacher"; // Redirect after sending message
     }
     @PostMapping("/sendStreamMessageTeacher2")
@@ -172,7 +173,6 @@ public class TeacherController {
             y.add(obtainedMarks);
         }
 
-        // Delete the first two elements of 'y'
         if (y.size() >= 2) {
             y.remove(0); // Remove first element
             y.remove(0); // Remove second element (after removal, what was at index 2 becomes the new index 0)

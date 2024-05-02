@@ -81,10 +81,19 @@ public class Student implements Login {
 
         String sql = "SELECT sender, receiver, text, `date`, roll " +
                 "FROM message " +
-                "WHERE receiver = '" + receiver + "' AND sender = '" + sender + "' AND roll = '" + role + "'";
+                "WHERE (sender = ? AND receiver = ? AND roll = ?) OR (sender = ? AND receiver = ? AND roll = ?)";
 
-        return jdbcTemplate.queryForList(sql);
+        return jdbcTemplate.queryForList(sql, sender, receiver, role, receiver, sender, role);
     }
+    public List<Map<String, Object>> getStreamMessages(String sender, String receiver, String role) {
+
+        String sql = "SELECT sender, receiver, text, `date`, roll " +
+                "FROM message " +
+                "WHERE receiver = ? AND roll = ?";
+
+        return jdbcTemplate.queryForList(sql, receiver, role);
+    }
+
     public List<Map<String, Object>> getTranscriptByUsername(String username) {
         if (username == null || username.isEmpty()) {
             return new ArrayList<>();
