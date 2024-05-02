@@ -17,7 +17,7 @@ public class AdminController {
     public String addTeacher(Model model) {
         System.out.println(56);
         model.addAttribute("value", 5);
-        return "login"; // Ensure this redirects or forwards to the appropriate view
+        return "login1"; // Ensure this redirects or forwards to the appropriate view
     }
     @PostMapping("/remove")
     public String getRemove() {
