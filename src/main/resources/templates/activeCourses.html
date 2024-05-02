@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Course</title>
+</head>
+<body>
+<h1>Register Course</h1>
+<form method="POST" action="/registerCoursesStudent2">
+    <table>
+        <thead>
+        <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Teacher Username</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${activeCourses}">
+            <td th:text="${course.course_id}">Course ID</td>
+            <td th:text="${course.course_name}">Course Name</td>
+            <td th:text="${course.teacherUsername}">Teacher Username</td>
+            <td>
+                <input type="radio" name="courseId" th:value="${course.course_id}">
+                <input type="hidden" name="teacherUsername" th:value="${course.teacherUsername}">
+                <input type="hidden" name="courseName" th:value="${course.course_name}">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit">Register Course</button>
+</form>
+</body>
+</html>

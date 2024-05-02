@@ -128,5 +128,24 @@ import java.util.Map;
         model.addAttribute("marksData", marksData);
         return "viewMarksStudentPage"; // Return the name of the Thymeleaf template to render
     }
+    @PostMapping("/registerCoursesStudent")
+    public String registerCourses(Model model) {
+        // Logic to handle course registration
+        // Redirect to the appropriate page after registration
+        List<Map<String, Object>> activeCourses = s.getAllActiveCourses();
+        model.addAttribute("activeCourses", activeCourses);
+        return "activeCourses"; // Redirect to the page to view courses after registration
+    }
+    @PostMapping("/registerCoursesStudent2")
+    public String registerCourse2(@RequestParam("courseId") String courseId,
+                                 @RequestParam("teacherUsername") String teacherUsername,
+                                 @RequestParam("courseName") String courseName
+                                ) {
+        System.out.println(courseName);
+        System.out.println(courseId);
+        System.out.println(teacherUsername);
+
+        return "success";
+    }
 }
 

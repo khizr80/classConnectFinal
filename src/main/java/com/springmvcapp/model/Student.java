@@ -100,6 +100,10 @@ public class Student implements Login {
                 "WHERE studentUsername = ? AND teacherUsername = ? AND courseId = ?";
         return jdbcTemplate.queryForList(sql, studentUsername, teacherUsername, courseId);
     }
+    public List<Map<String, Object>> getAllActiveCourses() {
+        String sql = "SELECT * FROM course WHERE status = 1";
+        return jdbcTemplate.queryForList(sql);
+    }
 
 }
 
