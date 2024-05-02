@@ -2,9 +2,8 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>teacher</title>
+    <title>Teacher</title>
     <style>
-        /* Your CSS styles go here */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -13,20 +12,21 @@
             display: grid;
             justify-content: center;
             align-items: center;
-
         }
-form{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-}
+
+        form {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+        }
+
         h1 {
             text-align: center;
             color: #333;
             font-size: xx-large;
         }
 
-         button {
+        button {
             padding: 15px 20px;
             background-color: #007bff;
             color: white;
@@ -34,7 +34,8 @@ form{
             border-radius: 4px;
             cursor: pointer;
             font-size: 20px;
-             width: 250px;
+            width: 250px;
+            margin-top: 20px; /* Added margin top */
         }
 
         button:hover {
@@ -47,5 +48,14 @@ form{
 <form method="POST" action="/viewCourseTeacher">
     <button type="submit">View Classes</button>
 </form>
+<form>
+    <button onclick="logout()">Logout</button>
+</form>
+
+<script>
+    function logout() {
+        window.location.href = "index.html";
+    }
+</script>
 </body>
 </html>

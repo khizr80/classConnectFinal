@@ -20,6 +20,19 @@
             color: #333;
         }
 
+        .btn-container {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn-container .btn {
+            display: inline-flex;
+            margin: 0 10px; /* Adjust the margin between buttons */
+        }
+
         button {
             margin: 2px;
             padding: 10px 20px;
@@ -34,35 +47,30 @@
         button:hover {
             background-color: #0056b3;
         }
-
-        .btn-container {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .btn-container .btn {
-            display: inline-flex;
-            margin: 0 10px; /* Adjust the margin between buttons */
-        }
-
     </style>
 </head>
 <body>
 <h1>Student Dashboard</h1>
 <div class="btn-container">
-<form method="POST" action="/viewCourse">
-    <button type="submit">View Classes</button>
+    <form method="POST" action="/viewCourse">
+        <button type="submit">View Classes</button>
+    </form>
+
+    <form method="POST" action="/viewTranscript">
+        <button type="submit">View Transcript</button>
+    </form>
+    <form method="POST" action="/registerCoursesStudent">
+        <button type="submit">Register In Courses</button>
+    </form>
+</div>
+<form>
+    <button onclick="logout()">Logout</button>
 </form>
 
-<form method="POST" action="/viewTranscript">
-    <button type="submit">View Transcript</button>
-</form>
-<form method="POST" action="/registerCoursesStudent">
-    <button type="submit">Register In Courses</button>
-</form>
-</div>
+<script>
+    function logout() {
+        window.location.href = "index.html";
+    }
+</script>
 </body>
 </html>
