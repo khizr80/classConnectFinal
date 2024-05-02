@@ -62,7 +62,7 @@
         <!-- Iterate over the attendance data and display each record -->
         <tr th:each="attendance : ${attendanceData}">
             <td th:text="${attendance.date}"></td>
-            <td th:text="${attendance.status}"></td>
+            <td th:text="${attendance.status == 1 ? 'Present' : 'Absent'}"></td>
         </tr>
         </tbody>
     </table>

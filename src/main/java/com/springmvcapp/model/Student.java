@@ -113,10 +113,20 @@ public class Student implements Login {
         String sql = "SELECT * FROM attendance WHERE student_id = ? AND course_id = ? AND teacher_username = ?";
         return jdbcTemplate.queryForList(sql, studentUsername, courseId, teacherUsername);
     }
-    public void registerCourse(String courseId, String teacherUsername, String courseName, String studentId) {
-        String sql = "INSERT INTO course_students (course_id, student_id, courseName, teacherUsername) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, courseId, studentId, courseName, teacherUsername);
+
+    public String registerCourse(String courseId, String teacherUsername, String courseName, String studentId) {
+        String sql = "SELECT COUNT(*) FROM course_students WHERE course_id = ? AND student_id = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, courseId, studentId);
+        if (count == 0) {
+            sql = "INSERT INTO course_students (course_id, student_id, courseName, teacherUsername) VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(sql, courseId, studentId, courseName, teacherUsername);
+            return "success";
+        } else {
+            // Handle duplicate entry, perhaps by showing a message to the user
+            return"alreadyCourseRegistered";
+        }
     }
+
 
 }
 
