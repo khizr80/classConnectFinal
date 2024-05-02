@@ -2,11 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Stream Messages</title>
+    <style>
+        /* Your CSS styles go here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-<h1>Messages</h1>
+<h1>Message Stream</h1>
 <div th:if="${messages.isEmpty()}">
-    <p>No messages found.</p>
+    <p>No messages found </p>
 </div>
 <div th:unless="${messages.isEmpty()}">
     <ul>
@@ -16,7 +61,6 @@
                 <p><strong>Receiver:</strong> <span th:text="${message.get('receiver')}">Receiver Name</span></p>
                 <p><strong>Date:</strong> <span th:text="${message.get('date')}">Date</span></p>
                 <p><strong>Text:</strong> <span th:text="${message.get('text')}">Message Text</span></p>
-<!--                <p><strong>Role:</strong> <span th:text="${message.get('role')}">Role</span></p>-->
             </div>
             <hr>
         </li>

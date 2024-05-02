@@ -5,17 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>View Marks</title>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 20px;
     }
+
     th, td {
       border: 1px solid #ddd;
       padding: 8px;
       text-align: left;
     }
+
     th {
-      background-color: #f2f2f2;
+      background-color: #007bff;
     }
   </style>
 </head>
@@ -24,8 +38,6 @@
 <table>
   <thead>
   <tr>
-    <th>Student Username</th>
-    <th>Teacher Username</th>
     <th>Course ID</th>
     <th>Evaluation Name</th>
     <th>Total Marks</th>
@@ -36,8 +48,6 @@
   <tbody>
   <!-- Thymeleaf iteration to display marks data -->
   <tr th:each="mark : ${marksData}">
-    <td th:text="${mark['studentUsername']}"></td>
-    <td th:text="${mark['teacherUsername']}"></td>
     <td th:text="${mark['courseId']}"></td>
     <td th:text="${mark['evaluationName']}"></td>
     <td th:text="${mark['totalMarks']}"></td>
