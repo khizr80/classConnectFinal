@@ -13,12 +13,15 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/")
 public class LoginController {
 
-    @Autowired
-    private Admin admin;
-    @Autowired
-    private Teacher teacher;
-    @Autowired
-    private Student student;
+    private final Admin admin;
+    private final Teacher teacher;
+    private final Student student;
+
+    public LoginController(Admin admin, Teacher teacher, Student student) {
+        this.admin = admin;
+        this.teacher = teacher;
+        this.student = student;
+    }
 
     @GetMapping("/login")
     public String handleLogin(@RequestParam("id") String id, @RequestParam("pass") String password, @RequestParam("value") String userType, HttpServletResponse response) {

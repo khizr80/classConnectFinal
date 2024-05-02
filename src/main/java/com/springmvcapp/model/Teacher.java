@@ -125,10 +125,7 @@ public class Teacher implements Login {
         String sql = "INSERT INTO attendance (student_id, teacher_username, course_id, date, status) " +
                 "VALUES (?, ?, ?, ?, ?) " +
                 "ON DUPLICATE KEY UPDATE status = VALUES(status)";
-
-        // Convert LocalDate to java.sql.Date (without time component)
         Date sqlDate = Date.valueOf(date);
-
         jdbcTemplate.update(sql, studentId, teacherUsername, courseId, sqlDate, attendanceStatus);
     }
 

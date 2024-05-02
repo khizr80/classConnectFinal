@@ -3,6 +3,7 @@ import com.springmvcapp.model.Course;
 import com.springmvcapp.model.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ public class TeacherController {
         this.s = s;
     }
     String username;
+    String courseid;
     @PostMapping("/viewCourseTeacher")
     public String viewCourse(Model model, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -38,8 +40,11 @@ public class TeacherController {
         return "courseTeacher"; // Ensure this redirects or forwards to the appropriate view
     }
     @PostMapping("/submitCourseTeacher")
-    public String handleCourseSubmission(@RequestParam("courseId") String courseId,Model model) {
+    public String handleCourseSubmission(@RequestParam("courseId") String courseId,Model model, HttpServletResponse response) {
         model.addAttribute("courseId", courseId);
+        System.out.println(courseId);
+        createCookie(response,courseId);
+        courseid=courseId;
         return "courseDetailsTeacher"; // Redirect or forward to a view displaying details of the submitted course
     }
     @PostMapping("/viewStreamMessagesTeacher")
@@ -131,10 +136,10 @@ public class TeacherController {
     }
 
     @GetMapping("/markAttendance")
-    public String markAttendance(@RequestParam("courseId") String courseId, Model model) {
-        List<Map<String, Object>> students = s.getStudentsByCourseId(courseId); // Fetch students enrolled in the course
+    public String markAttendance( Model model) {
+        List<Map<String, Object>> students = s.getStudentsByCourseId(courseid); // Fetch students enrolled in the course
         model.addAttribute("students", students);
-        model.addAttribute("courseId", courseId);
+        model.addAttribute("courseId", courseid);
         return "markAttendance"; // Display the mark attendance form
     }
 
@@ -150,7 +155,9 @@ public class TeacherController {
             LocalDate today = LocalDate.now();
             s.insertAttendance(Username,username,courseId,value,today);
         }
-        return "success";
+        model.addAttribute("courseId", courseId);
+
+        return "redirect:/markAttendance";
     }
     @PostMapping("/submitMarks")
     public String submitMarks(@RequestParam("courseId") String courseId,
@@ -185,5 +192,9 @@ public class TeacherController {
         model.addAttribute("progressList", progressList);
         return "classProgress";
     }
-
+    private void createCookie(HttpServletResponse response, String username) {
+        Cookie usernameCookie = new Cookie("courseId", username);
+        usernameCookie.setMaxAge(24 * 60 * 60); // 1 day
+        response.addCookie(usernameCookie);
+    }
 }
