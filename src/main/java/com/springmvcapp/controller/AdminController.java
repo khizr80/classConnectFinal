@@ -73,8 +73,8 @@ public class AdminController {
     }
     @GetMapping("/approveRegistration")
     public String approveRegistration(Model model) {
-//        List<String> x=a1.getUnprocessedStudentUsernames();
-//        model.addAttribute("unapprovedStudentUsernames", x);
+       List<String> x=a1.getUnprocessedStudentUsernames();
+        model.addAttribute("unapprovedStudentUsernames", x);
 
         return "approveStudents"; // Assuming you have a success page named "success.html"
     }
