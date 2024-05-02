@@ -31,7 +31,7 @@
     <button type="submit"> view Messages</button>
 </form>
 
-<form th:action="@{/markAttendance}" method="post">
+<form th:action="@{/markAttendance}" method="get">
     <input type="hidden" name="courseId" th:value="${courseId}" />
     <button type="submit">Mark Attendance</button>
 </form>

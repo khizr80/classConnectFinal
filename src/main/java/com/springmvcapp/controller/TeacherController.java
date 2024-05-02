@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class TeacherController {
         this.s = s;
     }
     String username;
+    String courseId;
     @PostMapping("/viewCourseTeacher")
     public String viewCourse(Model model, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -38,7 +41,6 @@ public class TeacherController {
 
         List<Course> courses = s.getCoursesByTeacherUsername(username);
         model.addAttribute("courses", courses);
-        System.out.println(courses.get(0));
         return "courseTeacher"; // Ensure this redirects or forwards to the appropriate view
     }
     @PostMapping("/submitCourseTeacher")
@@ -60,16 +62,11 @@ public class TeacherController {
         return "messageTeacher"; // Redirect after sending message
     }
     @PostMapping("/sendStreamMessageTeacher2")
-    public String sendStreamMessage(@RequestParam("courseId") String courseId,
-                                    @RequestParam("messageText") String messageText,
-                                    Model model,@RequestParam("action") String action) {
-
+    public String sendStreamMessage(@RequestParam("courseId") String courseId, @RequestParam("messageText") String messageText, Model model,@RequestParam("action") String action) {
             return s.insertMessage(username,courseId,"c",messageText);
-
     }
     @PostMapping("/sendStudentMessages2")
     public String viewTeacherMessages(@RequestParam("courseId") String courseId,Model model) {
-//        String g=s.getTeacherUsernameByCourseId(courseId);
         String g="";
 
         System.out.println(g);
@@ -141,7 +138,7 @@ public class TeacherController {
         return "success";
     }
 
-    @PostMapping("/markAttendance")
+    @GetMapping("/markAttendance")
     public String markAttendance(@RequestParam("courseId") String courseId, Model model) {
         List<Map<String, Object>> students = s.getStudentsByCourseId(courseId); // Fetch students enrolled in the course
         model.addAttribute("students", students);
@@ -154,18 +151,13 @@ public class TeacherController {
                                  @RequestParam("attendance") String[] attendance,
                                  Model model) {
 
-        // Assuming courseId and attendance are received correctly
-        // Process attendance data here
         for (String entry : attendance) {
             String[] parts = entry.split(":");
-            String username = parts[0];
-            int value = Integer.parseInt(parts[1]);
-            // Process attendance data, e.g., save it to the database
-            System.out.println("Username: " + username + ", Attendance: " + (value == 1 ? "Present" : "Absent"));
-            // You can implement the logic to save attendance to the database here
+            String Username = parts[0];
+            String value = parts[1];
+            LocalDate today = LocalDate.now();
+            s.insertAttendance(Username,username,courseId,value,today);
         }
-
-        // Redirect to a confirmation page or any other appropriate page
         return "success";
     }
     @PostMapping("/submitMarks")

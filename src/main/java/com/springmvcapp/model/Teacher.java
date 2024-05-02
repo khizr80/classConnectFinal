@@ -7,6 +7,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -66,21 +68,7 @@ public class Teacher implements Login {
             return "teacher";
         }
     }
-    public String insertEvaluation(String courseId, String evaluationName, String weightage, String totalMarks, List<String> studentUsernames) {
-        String sql = "INSERT INTO Marks (courseID, evaluationName, weightage, totalMarks, studentUsername) VALUES (?, ?, ?, ?, ?)";
-        try {
-            for (String studentUsername : studentUsernames) {
-                jdbcTemplate.update(sql, courseId, evaluationName, weightage, totalMarks, studentUsername);
-            }
-            return "success"; // Redirect to success page
-        } catch (DataIntegrityViolationException e) {
-            return "error"; // Handle error, redirect to error page or display error message
-        }
-    }
-//    public List<String> getStudentsByCourseAndTeacher(String courseId, String teacherUsername) {
-//        String sql = "SELECT student_id FROM course_students WHERE course_id = ? AND teacherUsername = ?";
-//        return jdbcTemplate.queryForList(sql, String.class, courseId, teacherUsername);
-//    }
+
     public List<String> getStudentsByCourseAndTeacher(String courseId, String teacherUsername) {
         String sql = "SELECT student_id FROM course_students WHERE course_id = ? AND teacherUsername = ?";
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, courseId, teacherUsername);
@@ -124,27 +112,16 @@ public class Teacher implements Login {
             return studentMap;
         });
     }
+    public void insertAttendance(String studentId, String teacherUsername, String courseId, String attendanceStatus, LocalDate date) {
+        String sql = "INSERT INTO attendance (student_id, teacher_username, course_id, date, status) " +
+                "VALUES (?, ?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE status = VALUES(status)";
 
-    public void saveAttendance(String courseId, List<String> presentStudents, List<String> absentStudents) {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = now.format(formatter);
+        // Convert LocalDate to java.sql.Date (without time component)
+        Date sqlDate = Date.valueOf(date);
 
-        // Save present students
-        for (String studentId : presentStudents)
-        {
-            String sql = "INSERT INTO attendance (student_id, course_id, date, status) VALUES (?, ?, ?, ?)";
-            jdbcTemplate.update(sql, studentId, courseId, formattedDate, "Present");
-        }
-
-        // Save absent students
-        for (String studentId : absentStudents)
-        {
-            String sql = "INSERT INTO attendance (student_id, course_id, date, status) VALUES (?, ?, ?, ?)";
-            jdbcTemplate.update(sql, studentId, courseId, formattedDate, "Absent");
-        }
+        jdbcTemplate.update(sql, studentId, teacherUsername, courseId, sqlDate, attendanceStatus);
     }
-
 }
 
 
