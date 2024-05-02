@@ -4,13 +4,10 @@ import com.springmvcapp.model.Course;  // Assuming your Course class is in the m
 import com.springmvcapp.model.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +15,6 @@ import java.util.Map;
     public class StudentController
 {
     private final Student s;
-
     public StudentController(Student s) {
         this.s = s;
     }
@@ -33,7 +29,6 @@ import java.util.Map;
             for (Cookie cookie : cookies) {
                 if ("username".equals(cookie.getName())) {
                     username = cookie.getValue();
-
                     break;
                 }
             }
@@ -50,7 +45,7 @@ import java.util.Map;
     }
     @PostMapping("/viewStreamMessages")
     public String viewStreamMessages(@RequestParam("courseId") String courseId,Model model) {
-        List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,courseId,"c");
+        List<Map<String, Object>> messages=s.getStreamMessages(username,courseId,"c");
         model.addAttribute("messages", messages); // Add messages to the model
         return "streamMessages"; // View name or redirection
     }
@@ -76,27 +71,11 @@ import java.util.Map;
            return s.insertMessage(username,t,"t",messageText);
         }
     }
-
-
     @PostMapping("/viewTeacherMessages")
     public String viewTeacherMessages(@RequestParam("courseId") String courseId,Model model) {
-        System.out.println(courseId);
         String g=s.getTeacherUsernameByCourseId(courseId);
-        System.out.println(g);
         List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,g,"t");
         model.addAttribute("messages", messages); // Add messages to the model
-        if (messages != null) {
-            for (Map<String, Object> message : messages) {
-                System.out.println("Sender: " + message.get("sender"));
-                System.out.println("Receiver: " + message.get("receiver"));
-                System.out.println("Text: " + message.get("text"));
-                System.out.println("Date: " + message.get("date"));
-                System.out.println("Role: " + message.get("role"));
-                System.out.println("------------------------");
-            }
-        } else {
-            System.out.println("No messages found.");
-        }
         return "streamMessages"; // View name or redirection
     }
 
@@ -128,21 +107,27 @@ import java.util.Map;
     }
     @PostMapping("/registerCoursesStudent")
     public String registerCourses(Model model) {
-        // Logic to handle course registration
-        // Redirect to the appropriate page after registration
         List<Map<String, Object>> activeCourses = s.getAllActiveCourses();
         model.addAttribute("activeCourses", activeCourses);
         return "activeCourses"; // Redirect to the page to view courses after registration
     }
     @PostMapping("/registerCoursesStudent2")
-    public String registerCourse2(@RequestParam("courseId") String courseId,
-                                 @RequestParam("teacherUsername") String teacherUsername,
-                                 @RequestParam("courseName") String courseName
-                                ) {
-        System.out.println(courseName);
-        System.out.println(courseId);
-        System.out.println(teacherUsername);
-
+    public String registerCoursesStudent2(@RequestParam("courseInfo") String courseInfo, HttpServletRequest request, Model model) {
+        String username = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        String[] parts = courseInfo.split(":");
+        String courseId = parts[0];
+        String teacherUsername = parts[1];
+        String courseName = parts[2];
+        s.registerCourse(courseId,teacherUsername,courseName,username);
         return "success";
     }
     @PostMapping("/viewStudentAttendance")
@@ -151,7 +136,6 @@ import java.util.Map;
         String g=s.getTeacherUsernameByCourseId(courseId);
         List<Map<String, Object>> attendanceData= s.getAttendanceByStudentAndCourseAndTeacher(username,courseId,g);
         model.addAttribute("attendanceData", attendanceData);
-
         return "studentAttendanceView";
     }
 }

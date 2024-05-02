@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.Map;
 @Repository
 public class Student implements Login {
-    private String userName;
-    private String password;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public String authenticate(String username, String password) {
+
         if (username.isEmpty() || password.isEmpty()) {
             return "fieldEmpty";
         }
@@ -40,7 +39,6 @@ public class Student implements Login {
             jdbcTemplate.update(sql, username, password);
             return "registered";
         } catch (DataIntegrityViolationException e) {
-            // Handle the error when the username already exists
             return "userAlreadyExists";
         }
     }
@@ -80,10 +78,19 @@ public class Student implements Login {
 
         String sql = "SELECT sender, receiver, text, `date`, roll " +
                 "FROM message " +
-                "WHERE receiver = '" + receiver + "' AND sender = '" + sender + "' AND roll = '" + role + "'";
+                "WHERE (sender = ? AND receiver = ? AND roll = ?) OR (sender = ? AND receiver = ? AND roll = ?)";
 
-        return jdbcTemplate.queryForList(sql);
+        return jdbcTemplate.queryForList(sql, sender, receiver, role, receiver, sender, role);
     }
+    public List<Map<String, Object>> getStreamMessages(String sender, String receiver, String role) {
+
+        String sql = "SELECT sender, receiver, text, `date`, roll " +
+                "FROM message " +
+                "WHERE receiver = ? AND roll = ?";
+
+        return jdbcTemplate.queryForList(sql, receiver, role);
+    }
+
     public List<Map<String, Object>> getTranscriptByUsername(String username) {
         if (username == null || username.isEmpty()) {
             return new ArrayList<>();
@@ -106,7 +113,10 @@ public class Student implements Login {
         String sql = "SELECT * FROM attendance WHERE student_id = ? AND course_id = ? AND teacher_username = ?";
         return jdbcTemplate.queryForList(sql, studentUsername, courseId, teacherUsername);
     }
-
+    public void registerCourse(String courseId, String teacherUsername, String courseName, String studentId) {
+        String sql = "INSERT INTO course_students (course_id, student_id, courseName, teacherUsername) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, courseId, studentId, courseName, teacherUsername);
+    }
 
 }
 

@@ -1,18 +1,13 @@
 package com.springmvcapp.controller;
 import com.springmvcapp.model.Course;
-
 import com.springmvcapp.model.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +21,6 @@ public class TeacherController {
         this.s = s;
     }
     String username;
-    String courseId;
     @PostMapping("/viewCourseTeacher")
     public String viewCourse(Model model, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -50,15 +44,13 @@ public class TeacherController {
     }
     @PostMapping("/viewStreamMessagesTeacher")
     public String viewStreamMessages(@RequestParam("courseId") String courseId,Model model) {
-        List<Map<String, Object>> messages=s.getMessagesBySenderReceiverAndRole(username,courseId,"c");
+        List<Map<String, Object>> messages=s.getStreamMessages(username,courseId,"c");
         model.addAttribute("messages", messages); // Add messages to the model
         return "streamMessages"; // View name or redirection
     }
     @PostMapping("/sendStreamMessageTeacher")
     public String sendStreamMessage(@RequestParam("courseId") String courseId,Model model) {
         model.addAttribute("courseId", courseId);
-        //String g=s.getTeacherUsernameByCourseId(courseId);
-        //model.addAttribute("teacherUsername", g);
         return "messageTeacher"; // Redirect after sending message
     }
     @PostMapping("/sendStreamMessageTeacher2")
@@ -172,7 +164,6 @@ public class TeacherController {
             y.add(obtainedMarks);
         }
 
-        // Delete the first two elements of 'y'
         if (y.size() >= 2) {
             y.remove(0); // Remove first element
             y.remove(0); // Remove second element (after removal, what was at index 2 becomes the new index 0)
