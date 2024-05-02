@@ -2,42 +2,87 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #f8f9fa; /* Light grey background */
+            font-family: Arial, sans-serif; /* Choose your preferred font */
+        }
+
+        h1 {
+            color: #343a40; /* Dark grey for headings */
+        }
+
+        .table {
+            background-color: #fff; /* White background for table */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+
+        th, td {
+            vertical-align: middle; /* Align text in the middle vertically */
+        }
+
+        .btn {
+            border-radius: 20px; /* Rounded button */
+            font-size: 14px; /* Larger font size */
+        }
+
+        /* Optional: Adjust spacing */
+        .mt-5 {
+            margin-top: 3rem; /* Top margin 3rem */
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem; /* Bottom margin 2rem */
+        }
+    </style>
 </head>
 <body>
-<h1>Course Registration</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Course ID</th>
-        <th>Course Name</th>
-        <th>Teacher Username</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="course : ${courses}">
-        <td th:text="${course.course_id}">Course ID</td>
-        <td th:text="${course.course_name}">Course Name</td>
-        <td th:text="${course.teacherUsername}">Teacher Username</td>
-        <td th:text="${course.status}">Status</td>
-        <td>
-            <form th:action="@{/toggleRegistration}" method="post">
-                <input type="hidden" name="courseId" th:value="${course.course_id}">
-                <input type="hidden" name="teacherUsername" th:value="${course.teacherUsername}">
-                <input type="hidden" name="status" value="1">
-                <button type="submit">Open Registration</button>
-            </form>
-            <form th:action="@{/toggleRegistration}" method="post">
-                <input type="hidden" name="courseId" th:value="${course.course_id}">
-                <input type="hidden" name="teacherUsername" th:value="${course.teacherUsername}">
-                <input type="hidden" name="status" value="0">
-                <button type="submit">Close Registration</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="container mt-5">
+    <h1 class="mb-4">Course Registration</h1>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Teacher Username</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.course_id}">Course ID</td>
+            <td th:text="${course.course_name}">Course Name</td>
+            <td th:text="${course.teacherUsername}">Teacher Username</td>
+            <td th:text="${course.status}">Status</td>
+            <td>
+                <form th:action="@{/toggleRegistration}" method="post" class="d-inline-block">
+                    <input type="hidden" name="courseId" th:value="${course.course_id}">
+                    <input type="hidden" name="teacherUsername" th:value="${course.teacherUsername}">
+                    <input type="hidden" name="status" value="1">
+                    <button type="submit" class="btn btn-success">Open Registration</button>
+                </form>
+                <form th:action="@{/toggleRegistration}" method="post" class="d-inline-block">
+                    <input type="hidden" name="courseId" th:value="${course.course_id}">
+                    <input type="hidden" name="teacherUsername" th:value="${course.teacherUsername}">
+                    <input type="hidden" name="status" value="0">
+                    <button type="submit" class="btn btn-danger">Close Registration</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS (optional if you need JavaScript features) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -4,54 +4,52 @@
     <meta charset="UTF-8">
     <title>Send Stream Message</title>
     <style>
+        /* Your CSS styles go here */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             margin: 0;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-            padding-top: 20px;
+            padding: 20px;
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        button {
-            margin: 2px;
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        button[type="submit"] {
             padding: 10px 20px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
             font-size: 16px;
+            margin-right: 10px;
         }
 
-        button:hover {
+        button[type="submit"]:hover {
             background-color: #0056b3;
-        }
-
-        .btn-container {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .btn-container .btn {
-            display: inline-flex;
-            margin: 0 10px; /* Adjust the margin between buttons */
-        }
-
-        input[type="text"] {
-            width: 300px; 
-            padding: 10px;
-            font-size: 16px;
         }
     </style>
 </head>
@@ -68,8 +66,8 @@
     <label for="messageText">Message:</label>
     <input type="text" id="messageText" name="messageText" placeholder="Enter your message here" required />
 
-    <button type="submit" name="action" value="teacher">Send Message to teacher </button>
-    <button type="submit" name="action" value="course">Save message in stream</button>
+    <button type="submit" name="action" value="teacher">Send Message to Teacher</button>
+    <button type="submit" name="action" value="course">Save in Stream</button>
 
 </form>
 </body>

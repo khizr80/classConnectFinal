@@ -2,81 +2,91 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Course Details</title>
+    <title>Title</title>
     <style>
+        /* Your CSS styles go here */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            justify-content: center;
-            align-items: center;
             display: flex;
             flex-direction: column;
+            align-items: center;
             padding-top: 20px;
         }
 
-        h1 {
+        .course-details {
             text-align: center;
-            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-content: center;
+
+        }
+
+        .buttons-container form {
+            margin: 0; /* Reset form margin */
         }
 
         button {
-            margin: 2px;
-            padding: 10px 20px;
+            padding: 15px 25px;
             background-color: #007bff;
+            font-size: 18px;
             color: white;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            border-radius: 4px;
+            width: 100%; /* Make button fill container width */
         }
 
         button:hover {
             background-color: #0056b3;
         }
 
-        .btn-container {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            justify-content: center;
+        /* Adjust spacing between buttons */
+        .buttons-container form:nth-child(3n + 1) button {
+            margin-right: auto; /* Space on the right */
         }
 
-        .btn-container .btn {
-            display: inline-flex;
-            margin: 0 10px; /* Adjust the margin between buttons */
+        .buttons-container form:nth-child(3n + 2) button {
+            margin: 0 auto; /* Centered */
+        }
+
+        .buttons-container form:nth-child(3n + 3) button {
+            margin-left: auto; /* Space on the left */
         }
     </style>
 </head>
 <body>
-<div>
+<div class="course-details">
     <h1>Course Details</h1>
     <input type="hidden" id="courseId" name="courseId" th:value="${courseId}" />
 </div>
+<div class="buttons-container">
+    <form th:action="@{/viewStreamMessages}" method="post">
+        <input type="hidden" name="courseId" th:value="${courseId}" />
+        <button type="submit">View Stream Messages</button>
+    </form>
 
-<form th:action="@{/viewStreamMessages}" method="post">
-    <input type="hidden" name="courseId" th:value="${courseId}" />
-    <button type="submit">View Stream Messages</button>
-</form>
+    <form th:action="@{/sendStreamMessage}" method="post">
+        <input type="hidden" name="courseId" th:value="${courseId}" />
+        <button type="submit">Send Message</button>
+    </form>
 
-<form th:action="@{/sendStreamMessage}" method="post">
-    <input type="hidden" name="courseId" th:value="${courseId}" />
-    <button type="submit">Send Stream Message</button>
-</form>
+    <form th:action="@{/viewTeacherMessages}" method="post">
+        <input type="hidden" name="courseId" th:value="${courseId}" />
+        <button type="submit">View Teacher Messages</button>
+    </form>
+    <form th:action="@{/viewMarksStudent}" method="post">
+        <input type="hidden" name="courseId" th:value="${courseId}" />
+        <button type="submit">View Marks</button>
+    </form>
+    <form th:action="@{/viewStudentAttendance}" method="post"> <!-- New form for viewing attendance -->
+        <input type="hidden" name="courseId" th:value="${courseId}" />
+        <button type="submit">View Attendance</button> <!-- Button for viewing attendance -->
+    </form>
 
-<form th:action="@{/viewTeacherMessages}" method="post">
-    <input type="hidden" name="courseId" th:value="${courseId}" />
-    <button type="submit">View Teacher Messages</button>
-</form>
-<form th:action="@{/viewMarksStudent}" method="post">
-    <input type="hidden" name="courseId" th:value="${courseId}" />
-    <button type="submit">View Marks</button>
-</form>
-<form th:action="@{/viewStudentAttendance}" method="post"> <!-- New form for viewing attendance -->
-    <input type="hidden" name="courseId" th:value="${courseId}" />
-    <button type="submit">View Attendance</button> <!-- Button for viewing attendance -->
-</form>
-
+</div>
 </body>
 </html>
