@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class AdminController {
 
@@ -48,6 +51,24 @@ public class AdminController {
         model.addAttribute("result", result);
         return "offer_course_result"; // This will be a new HTML file for showing the result
     }
+    @GetMapping("/openRegistration")
+    public String openRegistration(Model model) {
+        List<Map<String, Object>> courses = a1.getAllCourses();
 
 
+        model.addAttribute("courses", courses);
+        return "courseRegistration"; // Return the view name for the success page
+    }
+    @PostMapping("/toggleRegistration")
+    public String toggleRegistration(@RequestParam("courseId") String courseId,
+                                     @RequestParam("teacherUsername") String teacherUsername,
+                                     @RequestParam("status") String status) {
+        System.out.println(courseId);
+        System.out.println(teacherUsername);
+        System.out.println("status "+status);
+        a1.updateCourseStatus(courseId,teacherUsername,status);
+
+        return "redirect:/openRegistration";
+
+    }
 }

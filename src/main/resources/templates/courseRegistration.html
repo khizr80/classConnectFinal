@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<h1>Course Registration</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Course ID</th>
+        <th>Course Name</th>
+        <th>Teacher Username</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="course : ${courses}">
+        <td th:text="${course.course_id}">Course ID</td>
+        <td th:text="${course.course_name}">Course Name</td>
+        <td th:text="${course.teacherUsername}">Teacher Username</td>
+        <td th:text="${course.status}">Status</td>
+        <td>
+            <form th:action="@{/toggleRegistration}" method="post">
+                <input type="hidden" name="courseId" th:value="${course.course_id}">
+                <input type="hidden" name="teacherUsername" th:value="${course.teacherUsername}">
+                <input type="hidden" name="status" value="1">
+                <button type="submit">Open Registration</button>
+            </form>
+            <form th:action="@{/toggleRegistration}" method="post">
+                <input type="hidden" name="courseId" th:value="${course.course_id}">
+                <input type="hidden" name="teacherUsername" th:value="${course.teacherUsername}">
+                <input type="hidden" name="status" value="0">
+                <button type="submit">Close Registration</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

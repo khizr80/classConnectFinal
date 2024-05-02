@@ -3,6 +3,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public class Admin implements Login {
 
@@ -106,7 +110,14 @@ private String password;
         }
 
     }
-
+    public List<Map<String, Object>> getAllCourses() {
+        String sql = "SELECT course_id, course_name, teacherUsername, status FROM course";
+        return jdbcTemplate.queryForList(sql);
+    }
+    public void updateCourseStatus(String courseId, String teacherUsername, String status) {
+        String sql = "UPDATE course SET status = ? WHERE course_id = ? AND teacherUsername = ?";
+        jdbcTemplate.update(sql, status, courseId, teacherUsername);
+    }
     // Getter for userName
     public String getUserName() {
         return userName;
