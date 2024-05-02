@@ -3,13 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        /* Your CSS styles go here */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+
+        .course-details {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+        .buttons-container form {
+            margin: 0; /* Reset form margin */
+        }
+        button {
+            padding: 15px 25px;
+            background-color: #007bff;
+            font-size: 18px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%; /* Make button fill container width */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        /* Adjust spacing between buttons */
+        .buttons-container form:nth-child(3n + 1) button {
+            margin-right: auto; /* Space on the right */
+        }
+        .buttons-container form:nth-child(3n + 2) button {
+            margin: 0 auto; /* Centered */
+        }
+        .buttons-container form:nth-child(3n + 3) button {
+            margin-left: auto; /* Space on the left */
+        }
+    </style>
 </head>
 <body>
-<div>
+<div class="course-details">
     <h1>Course Details</h1>
     <input type="hidden" id="courseId" name="courseId" th:value="${courseId}" />
 </div>
-
+<div class="buttons-container">
 <form th:action="@{/viewStreamMessagesTeacher}" method="post">
     <input type="hidden" name="courseId" th:value="${courseId}" />
     <button type="submit">View Stream Messages</button>
@@ -46,5 +92,6 @@
     <button type="submit">Set Marks Evaluation</button>
 </form>
 
+</div>
 </body>
 </html>
