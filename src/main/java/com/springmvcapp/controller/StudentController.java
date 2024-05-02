@@ -38,10 +38,8 @@ import java.util.Map;
                 }
             }
         }
-        System.out.println(username);
         List<Course> courses = s.getCoursesByUsername(username);
         model.addAttribute("courses", courses);
-        System.out.println(courses.get(0));
         return "course"; // Ensure this redirects or forwards to the appropriate view
     }
 

@@ -21,14 +21,14 @@ public class Student implements Login {
         if (username.isEmpty() || password.isEmpty()) {
             return "fieldEmpty";
         }
-        String checkSql = "SELECT COUNT(*) FROM student WHERE username = ? AND password = ?";
+        String checkSql = "SELECT COUNT(*) FROM student WHERE username = ? AND password = ? AND approved = 'accept'";
         int count = jdbcTemplate.queryForObject(checkSql, new Object[]{username, password}, Integer.class);
         if (count > 0)
             return "student";
         else
             return "incorrect";
-
     }
+
 
     public String createUser(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
@@ -92,8 +92,6 @@ public class Student implements Login {
         String sql = "SELECT courseName, Grade, courseID FROM transcript WHERE student_id = ?";
         return jdbcTemplate.queryForList(sql, username);
     }
-
-
     public List<Map<String, Object>> getMarks(String studentUsername, String teacherUsername, String courseId) {
         String sql = "SELECT studentUsername, teacherUsername, courseId, evaluationName, totalMarks, obtainedMarks, weightage " +
                 "FROM Marks " +
@@ -105,7 +103,7 @@ public class Student implements Login {
         return jdbcTemplate.queryForList(sql);
     }
 
-}
 
-// Getter for userName
+
+}
 

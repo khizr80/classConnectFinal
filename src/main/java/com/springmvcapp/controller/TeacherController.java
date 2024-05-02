@@ -180,10 +180,7 @@ public class TeacherController {
                 absentStudents.add(studentId);
             }
         }
-
-        // Save attendance in the database
         s.saveAttendance(courseId, presentStudents, absentStudents);
-        // Redirect to course details page
         return "redirect:/viewCourseTeacher";
     }
     @PostMapping("/submitMarks")

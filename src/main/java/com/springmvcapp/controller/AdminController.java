@@ -71,4 +71,20 @@ public class AdminController {
         return "redirect:/openRegistration";
 
     }
+    @GetMapping("/approveRegistration")
+    public String approveRegistration(Model model) {
+//        List<String> x=a1.getUnprocessedStudentUsernames();
+//        model.addAttribute("unapprovedStudentUsernames", x);
+
+        return "approveStudents"; // Assuming you have a success page named "success.html"
+    }
+    @PostMapping("/processApproval")
+    public String processApproval(@RequestParam String action,
+                                  @RequestParam String username,
+                                  Model model) {
+        System.out.println(action);
+        System.out.println(username);
+        a1.updateStatusByUsername(username,action);
+        return "redirect:/approveRegistration";
+    }
 }

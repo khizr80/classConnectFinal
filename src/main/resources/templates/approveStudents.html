@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unapproved Students</title>
+</head>
+<body>
+<h1>List of Unapproved Students</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Student Username</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="username : ${unapprovedStudentUsernames}">
+        <td th:text="${username}"></td>
+        <td>
+            <form method="POST" action="/processApproval">
+                <input type="hidden" name="username" th:value="${username}">
+                <button type="submit" name="action" value="accept">Accept</button>
+            </form>
+            <form method="POST" action="/processApproval">
+                <input type="hidden" name="username" th:value="${username}">
+                <button type="submit" name="action" value="reject">Reject</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

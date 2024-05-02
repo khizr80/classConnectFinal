@@ -118,6 +118,14 @@ private String password;
         String sql = "UPDATE course SET status = ? WHERE course_id = ? AND teacherUsername = ?";
         jdbcTemplate.update(sql, status, courseId, teacherUsername);
     }
+    public List<String> getUnprocessedStudentUsernames() {
+        String sql = "SELECT username FROM student WHERE approved = '0'";
+        return jdbcTemplate.queryForList(sql, String.class);
+    }
+    public void updateStatusByUsername(String username, String approved) {
+        String sql = "UPDATE student SET approved = ? WHERE username = ?";
+        jdbcTemplate.update(sql, approved, username);
+    }
     // Getter for userName
     public String getUserName() {
         return userName;
