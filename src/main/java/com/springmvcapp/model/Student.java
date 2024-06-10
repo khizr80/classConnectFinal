@@ -10,16 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @Repository
-public class Student implements Login {
+public class Student  {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Override
     public String authenticate(String username, String password) {
 
-        if (username.isEmpty() || password.isEmpty()) {
-            return "fieldEmpty";
-        }
         String checkSql = "SELECT COUNT(*) FROM student WHERE username = ? AND password = ? AND approved = 'accept'";
         int count = jdbcTemplate.queryForObject(checkSql, new Object[]{username, password}, Integer.class);
         if (count > 0)
@@ -30,9 +26,6 @@ public class Student implements Login {
 
 
     public String createUser(String username, String password) {
-        if (username.isEmpty() || password.isEmpty()) {
-            return "fieldEmpty";
-        }
         String sql = "INSERT INTO student (username, password) VALUES (?, ?)";
 
         try {
@@ -43,6 +36,7 @@ public class Student implements Login {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public List<Course> getCoursesByUsername(String username) {
         if (username == null || username.isEmpty()) {
             return new ArrayList<>();
@@ -65,6 +59,7 @@ public class Student implements Login {
             return "teacher";
         }
     }
+    @SuppressWarnings("deprecation")
     public String getTeacherUsernameByCourseId(String courseId)
     {
         if (courseId == null || courseId.isEmpty()) {

@@ -1,11 +1,11 @@
 package com.springmvcapp.model;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import ch.qos.logback.core.model.Model;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -18,25 +18,24 @@ import java.util.Map;
 
 
 @Repository
-public class Teacher implements Login {
+public class Teacher {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
 
-    @Override
+    
     public String authenticate(String username, String password) {
-        if(username.isEmpty() || password.isEmpty()) {
-            return "fieldEmpty";
-        }
         String checkSql = "SELECT COUNT(*) FROM teacher WHERE username = ? AND password = ?";
         int count = jdbcTemplate.queryForObject(checkSql, new Object[] {username, password}, Integer.class);
         if(count > 0) {
             return "teacher";
         } else {
+            
             return "incorrect";
         }
     }
+    @SuppressWarnings("deprecation")
     public List<Course> getCoursesByTeacherUsername(String username) {
         if (username == null || username.isEmpty()) {
             return new ArrayList<>();
@@ -110,6 +109,7 @@ public class Teacher implements Login {
         String sql = "UPDATE Marks SET obtainedMarks = ? WHERE courseId = ? AND evaluationName = ? AND studentUsername = ?";
         jdbcTemplate.update(sql, obtainedMarks, courseId, evaluationName, studentUsername);
     }
+    @SuppressWarnings("deprecation")
     public List<Map<String, Object>> getStudentsByCourseId(String courseId) {
         if (courseId == null || courseId.isEmpty()) {
             return new ArrayList<>();

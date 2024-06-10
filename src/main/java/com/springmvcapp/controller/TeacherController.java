@@ -166,7 +166,6 @@ public class TeacherController {
         List<String> studentUsernames = s.getStudentsByCourseAndTeacher(courseId, username);
         List<String> y = new ArrayList<>();
         for (Map.Entry<String, String> entry : obtainedMarksMap.entrySet()) {
-            String studentUsername = entry.getKey();
             String obtainedMarks = entry.getValue();
             y.add(obtainedMarks);
         }

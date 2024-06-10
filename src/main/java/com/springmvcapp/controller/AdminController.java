@@ -15,9 +15,11 @@ public class AdminController {
     private Admin a1;
     @PostMapping("/addteacher")
     public String addTeacher(Model model) {
-        System.out.println(56);
         model.addAttribute("value", 5);
-        return "login1"; // Ensure this redirects or forwards to the appropriate view
+        model.addAttribute("headerText", "Add Teacher");
+        model.addAttribute("buttonName", "Register");
+
+        return "login"; // Ensure this redirects or forwards to the appropriate view
     }
     @PostMapping("/remove")
     public String getRemove() {
@@ -26,15 +28,22 @@ public class AdminController {
 
     @PostMapping("/removeteacher")
     public String remTeacher(@RequestParam("id") String id, @RequestParam("action") String action,Model model) {
+        String y;
         if ("removeStudent".equals(action)) {
-            String y=a1.deleteStudent(id);
-            return y;
-            // Handle remove student action
+            y=a1.deleteStudent(id);
         } else {
-            // Handle remove teacher action
-            String y=a1.deleteTeacher(id);
-            return y; // Ensure this redirects or forwards to the appropriate view
+            y=a1.deleteTeacher(id);
         }
+        if (y.equals("userDeleted")) {
+            model.addAttribute("error", "user Deleted successfully");
+            return "incorrect";
+        }
+        else
+        {
+            model.addAttribute("error", "User with this username does not exist");
+            return "incorrect";
+        }
+        
     }
     @PostMapping("/offerCourseForm")
     public String showOfferCourseForm() {

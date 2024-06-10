@@ -20,10 +20,9 @@ private String userName;
 private String password;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+@SuppressWarnings("deprecation")
 @Override
         public String authenticate(String username, String password) {
-    if(username.isEmpty() || password.isEmpty())
-        return "fieldEmpty";
     String checkSql = "SELECT COUNT(*) FROM admin WHERE username = ? AND password = ?";
     int count = jdbcTemplate.queryForObject(checkSql, new Object[] {username, password}, Integer.class);
     if(count>0)
@@ -32,9 +31,6 @@ private String password;
         return "incorrect";
         }
     public String addTeacher(String username, String password) {
-        if(username.isEmpty() || password.isEmpty()) {
-            return "fieldEmpty";
-        }
         String sql = "INSERT INTO teacher (username, password) VALUES (?, ?)";
 
         try {
@@ -77,9 +73,6 @@ private String password;
     }
 
     public String deleteTeacher(String username) {
-        if(username.isEmpty()) {
-            return "fieldEmpty";
-        }
         String sql = "DELETE FROM teacher WHERE username = ?";
 
             int rowsAffected = jdbcTemplate.update(sql, username);
@@ -94,9 +87,6 @@ private String password;
 
     }
     public String deleteStudent(String username) {
-        if(username.isEmpty()) {
-            return "fieldEmpty";
-        }
         String sql = "DELETE FROM student WHERE username = ?";
 
         int rowsAffected = jdbcTemplate.update(sql, username);

@@ -2,8 +2,9 @@ package com.springmvcapp.controller;
 
 import com.springmvcapp.model.Admin;
 import com.springmvcapp.model.Teacher;
+import org.springframework.ui.Model;
+
 import com.springmvcapp.model.Student;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.Cookie;
@@ -23,8 +24,8 @@ public class LoginController {
         this.student = student;
     }
 
-    @GetMapping("/login")
-    public String handleLogin(@RequestParam("id") String id, @RequestParam("pass") String password, @RequestParam("value") String userType, HttpServletResponse response) {
+    @PostMapping("/login")
+    public String handleLogin(@RequestParam("id") String id, @RequestParam("pass") String password, @RequestParam("value") String userType, HttpServletResponse response,Model model) {
         String result;
 
         switch (userType) {
@@ -53,7 +54,20 @@ public class LoginController {
                 result = admin.addTeacher(id, password);
                 break;
         }
-
+        if(result.equals("userAlreadyExists"))
+        {
+            model.addAttribute("error","user already exists with this user name");
+            return "incorrect";
+        }
+        if (result.equals("teacherAdded")) {
+            model.addAttribute("error","teacher has been added in the system");
+            return "incorrect"; 
+        }
+        if (result.equals("registered")) {
+            model.addAttribute("error","Username and password has been sent for approval");
+            return "incorrect"; 
+        }
+        
         return result; // This should typically redirect to a meaningful URL or return a view name
     }
 
