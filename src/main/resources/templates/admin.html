@@ -40,10 +40,13 @@
 <header th:replace="~{fragments/header::headerFrag}"></header>
 <h1>Admin</h1>
 <form method="POST" action="/addteacher">
-    <button type="submit">add teacher</button>
+    <button type="submit">Add Teacher</button>
 </form>
-<form method="POST" action="/remove">
-    <button type="submit">remove user</button>
+<form method="get" action="/getRemoveTeacher">
+    <button type="submit">Remove Teacher</button>
+</form>
+<form method="get" action="/getRemoveStudent">
+    <button type="submit">Remove Student</button>
 </form>
 <form method="POST" action="/offerCourseForm">
     <button type="submit">Offer Course</button>

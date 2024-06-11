@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Users</title>
+    <style>
+        /* Optional: Add some styling */
+        .user-container {
+            margin-bottom: 10px;
+        }
+        .delete-button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Delete Users</h1>
+    
+    <form action="#" th:action="@{/deleteUser}" method="post">
+        <input type="hidden" name="userType" th:value="${userType}" />
+
+        <!-- Iterate over student usernames and display delete button for each -->
+        <div th:each="username : ${usernames}" class="user-container">
+            <span th:text="${username}"></span>
+            <button type="submit" class="delete-button" th:value="${username}" name="username">Delete</button>
+        </div>
+
+    </form>
+</body>
+</html>

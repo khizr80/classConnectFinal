@@ -3,26 +3,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Map;
 
 @Repository
-public class Admin implements Login {
-
-
+public class Admin {
 public Admin()
 {
 
 }
 
-private String userName;
-private String password;
     @Autowired
     private JdbcTemplate jdbcTemplate;
-@SuppressWarnings("deprecation")
-@Override
-        public String authenticate(String username, String password) {
+    public String authenticate(String username, String password) {
     String checkSql = "SELECT COUNT(*) FROM admin WHERE username = ? AND password = ?";
     int count = jdbcTemplate.queryForObject(checkSql, new Object[] {username, password}, Integer.class);
     if(count>0)
@@ -40,66 +33,7 @@ private String password;
             return "userAlreadyExists";
         }
     }
-    public boolean checkTeacherExists(String teacherUsername) {
-        // Write your logic here to check if the teacher exists in the database
-        // You can execute a query to check if the teacher with the provided username exists
-        String sql = "SELECT COUNT(*) FROM teacher WHERE username = ?";
-        int count = jdbcTemplate.queryForObject(sql, Integer.class, teacherUsername);
-        return count > 0;
-    }
 
-    public String offerCourse(int courseId, int semester, String teacherUsername, String courseName) {
-        // Validate input parameters
-        if (courseName.isEmpty() || teacherUsername.isEmpty()) {
-            return "fieldsEmpty";
-        }
-
-        // Check if the teacher exists (You might want to implement this method in Admin class)
-        // Assuming you have a method to check if the teacher exists
-        boolean teacherExists = checkTeacherExists(teacherUsername);
-        if (!teacherExists) {
-            return "teacherNotFound";
-        }
-
-        // Save course details to the database
-        String sql = "INSERT INTO course (course_id, course_name, teacherUsername, status, semester) VALUES (?, ?, ?, ?, ?)";
-
-        try {
-            jdbcTemplate.update(sql, courseId, courseName, teacherUsername, 1, semester);
-            return "courseOffered";
-        } catch (DataIntegrityViolationException e) {
-            return "courseAlreadyExists";
-        }
-    }
-
-    public String deleteTeacher(String username) {
-        String sql = "DELETE FROM teacher WHERE username = ?";
-
-            int rowsAffected = jdbcTemplate.update(sql, username);
-            if (rowsAffected > 0)
-            {
-                return "userDeleted";
-            }
-            else
-            {
-                return "userNotFound";
-            }
-
-    }
-    public String deleteStudent(String username) {
-        String sql = "DELETE FROM student WHERE username = ?";
-
-        int rowsAffected = jdbcTemplate.update(sql, username);
-        if (rowsAffected > 0)
-        {
-            return "userDeleted";
-        }
-        else
-        {
-            return "userNotFound";
-        }
-
-    }
     public List<Map<String, Object>> getAllCourses() {
         String sql = "SELECT course_id, course_name, teacherUsername, status FROM course";
         return jdbcTemplate.queryForList(sql);
@@ -112,28 +46,38 @@ private String password;
         String sql = "SELECT username FROM student WHERE approved = '0'";
         return jdbcTemplate.queryForList(sql, String.class);
     }
+    public List<String> getAllStudentUsernames() {
+        String sql = "SELECT username FROM student";
+        return jdbcTemplate.queryForList(sql, String.class);
+    }
+    public List<String> getAllTeacherUsernames() {
+        String sql = "SELECT username FROM teacher";
+        return jdbcTemplate.queryForList(sql, String.class);
+    }
+    
     public void updateStatusByUsername(String username, String approved) {
         String sql = "UPDATE student SET approved = ? WHERE username = ?";
         jdbcTemplate.update(sql, approved, username);
     }
-    // Getter for userName
-    public String getUserName() {
-        return userName;
+    public boolean deleteUser(String username, String userType) {
+        String deleteSql;
+        if ("teacher".equalsIgnoreCase(userType)) {
+            deleteSql = "DELETE FROM teacher WHERE username = ?";
+        } else if ("student".equalsIgnoreCase(userType)) {
+            deleteSql = "DELETE FROM student WHERE username = ?";
+        } else {
+            throw new IllegalArgumentException("Invalid userType: " + userType);
+        }
+
+        int rowsAffected = jdbcTemplate.update(deleteSql, username);
+        return rowsAffected > 0;
+    }
+    public String offerCourse( int semester, String courseName) {
+        
+        String sql = "INSERT INTO course ( course_name, teacherUsername, status, semester) VALUES ( ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, courseName,"def", 1, semester);
+        return "success";
     }
 
-    // Setter for userName
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    // Getter for password
-    public String getPassword() {
-        return password;
-    }
-
-    // Setter for password
-    public void setPassword(String password) {
-        this.password = password;
-    }
     }
 

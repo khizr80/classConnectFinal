@@ -3,6 +3,7 @@ import com.springmvcapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -18,53 +19,24 @@ public class AdminController {
         model.addAttribute("value", 5);
         model.addAttribute("headerText", "Add Teacher");
         model.addAttribute("buttonName", "Register");
-
         return "login"; // Ensure this redirects or forwards to the appropriate view
     }
-    @PostMapping("/remove")
-    public String getRemove() {
-        return "remove"; // Ensure this redirects or forwards to the appropriate view
-    }
-
-    @PostMapping("/removeteacher")
-    public String remTeacher(@RequestParam("id") String id, @RequestParam("action") String action,Model model) {
-        String y;
-        if ("removeStudent".equals(action)) {
-            y=a1.deleteStudent(id);
-        } else {
-            y=a1.deleteTeacher(id);
-        }
-        if (y.equals("userDeleted")) {
-            model.addAttribute("error", "user Deleted successfully");
-            return "incorrect";
-        }
-        else
-        {
-            model.addAttribute("error", "User with this username does not exist");
-            return "incorrect";
-        }
-        
-    }
+   
     @PostMapping("/offerCourseForm")
     public String showOfferCourseForm() {
         return "offer_course_form"; // This will be a new HTML file for the form
     }
 
     @PostMapping("/offerCourse")
-    public String offerCourse(@RequestParam("courseId") int courseId,
-                              @RequestParam("semester") int semester,
-                              @RequestParam("teacherUsername") String teacherUsername,
+    public String offerCourse(@RequestParam("semester") int semester,
                               @RequestParam("courseName") String courseName,
                               Model model) {
-        String result = a1.offerCourse(courseId, semester, teacherUsername, courseName);
-        model.addAttribute("result", result);
-        return "offer_course_result"; // This will be a new HTML file for showing the result
+        a1.offerCourse( semester, courseName);
+        return "success";
     }
     @GetMapping("/openRegistration")
     public String openRegistration(Model model) {
         List<Map<String, Object>> courses = a1.getAllCourses();
-
-
         model.addAttribute("courses", courses);
         return "courseRegistration"; // Return the view name for the success page
     }
@@ -72,28 +44,41 @@ public class AdminController {
     public String toggleRegistration(@RequestParam("courseId") String courseId,
                                      @RequestParam("teacherUsername") String teacherUsername,
                                      @RequestParam("status") String status) {
-        System.out.println(courseId);
-        System.out.println(teacherUsername);
-        System.out.println("status "+status);
         a1.updateCourseStatus(courseId,teacherUsername,status);
-
         return "redirect:/openRegistration";
-
     }
     @GetMapping("/approveRegistration")
     public String approveRegistration(Model model) {
        List<String> x=a1.getUnprocessedStudentUsernames();
         model.addAttribute("unapprovedStudentUsernames", x);
-
         return "approveStudents"; // Assuming you have a success page named "success.html"
     }
     @PostMapping("/processApproval")
-    public String processApproval(@RequestParam String action,
-                                  @RequestParam String username,
-                                  Model model) {
-        System.out.println(action);
-        System.out.println(username);
+    public String processApproval(@RequestParam String action,@RequestParam String username,Model model) {
         a1.updateStatusByUsername(username,action);
         return "redirect:/approveRegistration";
+    }
+    @GetMapping("/getRemoveTeacher")
+    public String removeTeacher(Model model) {
+        List<String>x=a1.getAllTeacherUsernames();
+        model.addAttribute("usernames", x);
+        model.addAttribute("userType", "teacher");
+        return "deleteUser";
+    }
+
+    @GetMapping("/getRemoveStudent")
+    public String removeStudent(Model model) {
+        List<String>x=a1.getAllStudentUsernames();
+        model.addAttribute("usernames", x);
+        model.addAttribute("userType", "student");
+        return "deleteUser";
+    }
+    @PostMapping("/deleteUser")
+    public String deleteUser(@RequestParam("username") String username,@RequestParam("userType") String userType) {
+         a1.deleteUser(username, userType);
+                if (userType.equals("teacher")) {
+                    return "redirect:/getRemoveTeacher"; // Redirect to admin dashboard or another appropriate page
+                } 
+                return "redirect:/getRemoveStudent"; // Redirect to admin dashboard or another appropriate page
     }
 }
